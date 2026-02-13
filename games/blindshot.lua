@@ -8,6 +8,7 @@ local Services = setmetatable({}, {
 	end
 })
 
+local RunService = Services.RunService
 local Players = Services.Players
 local lplr = Players.LocalPlayer
 
@@ -105,12 +106,21 @@ local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
 
 -- Combat
 do
-    local AntiHit
+    local AntiHit, HitConn
     AntiHit = Tabs.Combat:Toggle({
         Title = 'Anti Hit',
         Desc = 'Prevents you from getting hit by enemies',
         Callback = function(value)
-            lplr.Character.Humanoid.HipHeight = value and -2 or 1
+            if value then
+                HitConn = RunService:BindToRenderStep(function()
+                    lplr.Character.Humanoid.HipHeight = -2
+                end)
+            else
+                if HitConn then
+                    HitConn:Disconnect()
+                end
+                lplr.Character.Humanoid.HipHeight = 1
+            end
         end
     })
 end

@@ -34,20 +34,6 @@ module.isfile = isfile or function(file: string): string
 	return suc and true or false
 end
 
-module.loadstring = load or loadstring or function(...)
-	if not writefile or not loadfile or readfile then
-		return function()
-			return 'Failed to load str'
-		end
-	end
-
-	writefile('tuogheihouegrtehrtoug', ...)
-	repeat task.wait() until isfile('tuogheihouegrtehrtoug')
-
-	return loadfile('tuogheihouegrtehrtoug')
-end
-module.load = module.loadstring
-
 module.hook = hookfunction or hookfunc or hook_function or function(old, new)
     pcall(function()
         getfenv()[debug.info(old, 'n')] = new
