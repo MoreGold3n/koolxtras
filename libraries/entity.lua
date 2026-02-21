@@ -35,13 +35,13 @@ function entity:GetClosestPlayer(range, angle, wallcheck)
 
     for i,v in Players:GetPlayers() do
         if v ~= lplr and self.isAlive(lplr) and self.isAlive(v) then
-            if wallcheck and not raycast:CanSee(v.Character.HumanoidRootPart, {lplr.Character}) then continue end
+            if wallcheck and not raycast:CanSee(v.Character.PrimaryPart, {lplr.Character}) then continue end
             if v.Team and lplr.Team and v.Team == lplr.Team then continue end
 
-            local plrdir = math.deg(lplr.Character.HumanoidRootPart.CFrame.LookVector:Angle((v.Character.HumanoidRootPart.Position - lplr.Character.HumanoidRootPart.Position).Unit))
-            if not angle <= plrdir / 2 then continue end
+            local plrdir = math.deg(lplr.Character.HumanoidRootPart.CFrame.LookVector:Angle((v.Character.PrimaryPart.Position - lplr.Character.PrimaryPart.Position).Unit))
+            if angle <= plrdir / 2 then continue end
 
-            local dist = lplr:DistanceFromCharacter(v.Character.HumanoidRootPart.Position)
+            local dist = lplr:DistanceFromCharacter(v.Character.PrimaryPart.Position)
             if dist < minrnge then
                 minrnge = dist
                 entity = v
