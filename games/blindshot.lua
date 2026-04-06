@@ -33,14 +33,14 @@ do
         Name = 'AntiHit',
         Function = function(value)
             if value then
-                Library.Signal:newconn(RunService.BindToRenderStep, function()
+                HitConn = Library.Signal:newconn(RunService.Heartbeat, function()
                     lplr.Character.Humanoid.HipHeight = -2
                 end)
             else
-                if HitConn then
-                    HitConn:Disconnect()
-                end
-                lplr.Character.Humanoid.HipHeight = 1
+				if HitConn then
+					HitConn:Disconnect()
+				end
+                lplr.Character.Humanoid.HipHeight = 0
             end
         end
     })
