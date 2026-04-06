@@ -10,7 +10,7 @@ local module = {
 		properRequire = false,
 		helper = {}
 	},
-	game = ''
+	game = (shared.place == 'bridgeduel_testing' and 'bridgeduel') or shared.place
 }
 
 local cloneref = cloneref or function(obj: Instance): Instance
