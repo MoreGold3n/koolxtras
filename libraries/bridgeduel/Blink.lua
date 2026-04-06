@@ -1,3 +1,5 @@
+local function error(nme) return end
+
 -- Decompiled with Velocity Script Decompiler
 local v1 = game:GetService("ReplicatedStorage")
 local v2 = game:GetService("RunService")
