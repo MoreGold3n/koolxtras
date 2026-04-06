@@ -663,7 +663,7 @@ do
 							DropdownHolder.Visible = false
 							
 							if tab.Function then
-								task.spawn(Tab.Function, val)
+								task.spawn(tab.Function, val)
 							end
 							
 							configSys:Save()
@@ -694,8 +694,13 @@ do
 						end)
 					end
 
-					if tab.Default or tab.Options[1] then
-						moduleHandler:Set(tab.Default or tab.Options[1])
+					if cfg[Table.Name].Dropdowns[tab.Name].Value then
+						DropdownButton.Text = cfg[Table.Name].Dropdowns[tab.Name].Value
+						DropdownHolder.Visible = false
+							
+						if tab.Function then
+							task.spawn(tab.Function, cfg[Table.Name].Dropdowns[tab.Name].Value)
+						end
 					end
 					
 					lib.Signal:newconn(DropdownButton.MouseButton1Click, function()
