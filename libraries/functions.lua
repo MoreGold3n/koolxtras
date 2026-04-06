@@ -12,7 +12,7 @@ local module = {
 		properRequire = false,
 		helper = {}
 	},
-	game = (shared.place == 'bridgeduel_testing' and 'bridgeduel') or shared.place
+	game = shared.place
 }
 
 local cloneref = cloneref or function(obj: Instance): Instance
@@ -73,5 +73,4 @@ module.require = function(moduleScript: Instance): Instance
 end
 
 module.requirejank:Test()
-
 return module
