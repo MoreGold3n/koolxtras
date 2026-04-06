@@ -581,7 +581,7 @@ do
 							value = math.floor(value / tab.Round) * tab.Round
 						end
 						
-						SliderFill.Size = UDim2.new((value - self.Min) / (self.Max - self.Min), 0, 1, 0)
+						SliderFill.Size = UDim2.new((value - tab.Min) / (tab.Max - tab.Min), 0, 1, 0)
 						SliderVal.Text = string.format('%.2f', value)
 
 						if tab.Function then
