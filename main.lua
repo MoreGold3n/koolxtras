@@ -52,6 +52,7 @@ for i,v in ids do
         if not suc then
             return error('Failed to download file: '..debug.traceback(res))
         elseif res then
+			shared.place = i
             return loadstring(res)()
         end
     end
