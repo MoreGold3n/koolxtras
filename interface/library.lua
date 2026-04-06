@@ -56,6 +56,8 @@ local configSys = {
 	end
 }
 
+configSys:Load()
+
 if not runService:IsStudio() then
 	for _, v in {'kool.aid', 'kool.aid/configs'} do
 		if not isfolder(v) then
@@ -439,7 +441,7 @@ do
 					if cfg[Table.Name].Toggles[tab.Name].Enabled then
 						tweenService:Create(MiniTogStroke, TweenInfo.new(0.1), {Transparency = cfg[Table.Name].Toggles[tab.Name].Enabled and 0.55 or 0.8}):Play()
 						if tab.Function then
-							task.spawn(tab.Function, self.Enabled)
+							task.spawn(tab.Function, cfg[Table.Name].Toggles[tab.Name].Enabled)
 						end
 					end
 
@@ -718,7 +720,7 @@ do
 				if cfg[Table.Name].Enabled and Table.Function then
 					tweenService:Create(ModuleStroke, TweenInfo.new(0.1), {Transparency = cfg[Table.Name].Enabled and 0.55 or 0.8}):Play()
 					if Table.Function then
-						task.spawn(Table.Function, self.Enabled)
+						task.spawn(Table.Function, cfg[Table.Name].Enabled)
 					end
 				end
 				
