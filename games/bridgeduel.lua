@@ -32,4 +32,30 @@ local Dependencies = {
     Blink = Functions.require(ReplicatedStorage.Blink.Client)
 }
 
+do
+    local Speed
+	local SpeedSlider = {Value = 16}
+    Speed = Library.Tabs.Movement:CreateModule({
+        Name = 'Speed',
+        Function = function(value)
+            if value then
+                repeat
+                    if Entity.isAlive(lplr) then
+                        local moveDir = lplr.Character.Humanoid.MoveDirection
+                        lplr.Character.HumanoidRootPart.Velocity = Vector3.new(moveDir.X * SpeedSlider.Value, lplr.Character.HumanoidRootPart.Velocity.Y, moveDir.Z * SpeedSlider.Value)
+                    end
+
+                    task.wait()
+                until not Speed.Enabled
+            end
+        end
+    })
+    SpeedSlider = Speed:CreateSlider({
+        Name = 'Speed',
+		Min = 1,
+		Max = 28,
+		Default = 16
+    })
+end
+
 print(Dependencies.Blink)
