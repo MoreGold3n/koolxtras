@@ -5,8 +5,6 @@
     https://github.com/renderintents/Render/blob/main/libraries/utils.luau
 ]]
 
-print('we are da kirkinator')
-
 local module = {
 	requirejank = {
 		properRequire = false,
