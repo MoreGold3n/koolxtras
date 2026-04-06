@@ -9,6 +9,7 @@ local Services = setmetatable({}, {
 })
 
 local ReplicatedStorage = Services.ReplicatedStorage
+local UserInputService = Services.UserInputService
 local Players = Services.Players
 local lplr = Players.LocalPlayer
 
@@ -39,7 +40,7 @@ do
 		Function = function(callback)
 			if callback then
 				repeat
-					local tool = getTool()
+					local tool = Entity.tool.getTool(lplr)
 					if tool and inputService:IsMouseButtonPressed(0) then
 						tool:Activate()
 					end
