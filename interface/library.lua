@@ -437,7 +437,7 @@ do
 					end)
 
 					if cfg[Table.Name].Toggles[tab.Name].Enabled and tab.Function then
-						tweenService:Create(MiniTogStroke, TweenInfo.new(0.1), {Transparency = self.Enabled and 0.55 or 0.8}):Play()
+						tweenService:Create(MiniTogStroke, TweenInfo.new(0.1), {Transparency = cfg[Table.Name].Toggles[tab.Name].Enabled and 0.55 or 0.8}):Play()
 						if tab.Function then
 							task.spawn(tab.Function, self.Enabled)
 						end
@@ -576,7 +576,7 @@ do
 					end)
 
 					if cfg[Table.Name].Sliders[tab.Name].Value then
-						value = math.clamp(value, self.Min, self.Max)
+						value = math.clamp(cfg[Table.Name].Sliders[tab.Name].Value, tab.Min, tab.Max)
 						if tab.Round then
 							value = math.floor(value / tab.Round) * tab.Round
 						end
@@ -715,7 +715,7 @@ do
 				end)
 
 				if cfg[Table.Name].Enabled and Table.Function then
-					tweenService:Create(ModuleStroke, TweenInfo.new(0.1), {Transparency = self.Enabled and 0.55 or 0.8}):Play()
+					tweenService:Create(ModuleStroke, TweenInfo.new(0.1), {Transparency = cfg[Table.Name].Enabled and 0.55 or 0.8}):Play()
 					if Table.Function then
 						task.spawn(Table.Function, self.Enabled)
 					end
