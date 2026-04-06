@@ -34,7 +34,7 @@ local function downloadFile(file)
     return readfile(file)
 end
 
-for _, v in {'koolaid', 'koolaid/libraries', 'koolaid/profiles', 'koolaid/games'} do
+for _, v in {'koolaid', 'koolaid/libraries', 'koolaid/configs', 'koolaid/games'} do
     if not isfolder(v) then
         makefolder(v)
     end
