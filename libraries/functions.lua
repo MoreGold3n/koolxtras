@@ -5,6 +5,8 @@
     https://github.com/renderintents/Render/blob/main/libraries/utils.luau
 ]]
 
+print('we are da kirkinator')
+
 local module = {
 	requirejank = {
 		properRequire = false,
@@ -62,8 +64,8 @@ function module.requirejank:Test()
 end
 
 function module.requirejank.helper:Fetch(file: string): string
-	print('https://raw.githubusercontent.com/sstvskids/koolxtras/refs/heads/main/libraries/'..module.game..'/'..file..'.lua')
-	return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/refs/heads/main/libraries/'..module.game..'/'..file..'.lua'))()
+	print('https://raw.githubusercontent.com/sstvskids/koolxtras/refs/heads/main/libraries/'..self.game..'/'..file..'.lua')
+	return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/refs/heads/main/libraries/'..self.game..'/'..file..'.lua'))()
 end
 
 module.require = function(moduleScript: Instance): Instance
