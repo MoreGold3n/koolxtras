@@ -62,7 +62,6 @@ function module.requirejank:Test()
 end
 
 function module.requirejank.helper:Fetch(file: string): string
-	print('https://raw.githubusercontent.com/sstvskids/koolxtras/refs/heads/main/libraries/'..self.game..'/'..file..'.lua')
 	return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/refs/heads/main/libraries/'..self.game..'/'..file..'.lua'))()
 end
 
