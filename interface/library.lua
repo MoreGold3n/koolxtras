@@ -6,9 +6,6 @@
 	CREATED: [ 16/03 ] (2026)
 	
 ]]
-
-print(game.PlaceId)
-
 if not shared.place then shared.place = game.PlaceId end
 
 local lib = {
