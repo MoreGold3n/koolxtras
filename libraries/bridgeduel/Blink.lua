@@ -80,6 +80,9 @@ local function v_u_22()
     -- upvalues: (ref) v_u_12, (ref) v_u_11
     v_u_12 = v_u_12 + 1
     local v21 = v_u_11[v_u_12]
+    if not v21 then
+        error('dih')
+    end
     if typeof(v21) ~= "Instance" then
         error((("Expected an Instance, got %* instead."):format((typeof(v21)))))
     end
