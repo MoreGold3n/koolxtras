@@ -14,7 +14,7 @@ local lib = {
 		newconn = function(self, signal, func)
 			local conn = signal:Connect(func)
 			table.insert(self.Connections, conn)
-			
+
 			return conn
 		end
 	}
@@ -81,7 +81,7 @@ local function makeStroke(strokeMode, color, joinMode, strokeSizeMode, thickness
 	stroke.Thickness = thickness
 	stroke.Transparency = transparency
 	stroke.Parent = parent
-	
+
 	return stroke
 end
 
@@ -89,7 +89,7 @@ local function makeCorner(radius, parent)
 	local corner = Instance.new('UICorner')
 	corner.CornerRadius = radius
 	corner.Parent = parent
-	
+
 	return corner
 end
 
@@ -100,8 +100,38 @@ local function makePadding(pB, pL, pR, pT, parent)
 	padding.PaddingRight = pR
 	padding.PaddingTop = pT
 	padding.Parent = parent
-	
+
 	return padding
+end
+
+--[[
+	Credits to nothm // 1DollarH4ck on Roblox for the makeDraggable function
+		(I got lazy and didn't want to code the makeDraggable function)
+]]
+
+local function makeDraggable(Frame)
+	local Dragging, DragStart, StartPos
+
+	Frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			Dragging = true
+			DragStart = input.Position
+			StartPos = Frame.Position
+		end
+	end)
+
+	Frame.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			Dragging = false
+		end
+	end)
+
+	inputService.InputChanged:Connect(function(input)
+		if Dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local Delta = input.Position - DragStart
+			Frame.Position = UDim2.new(StartPos.X.Scale, StartPos.X.Offset + Delta.X, StartPos.Y.Scale, StartPos.Y.Offset + Delta.Y)
+		end
+	end)
 end
 
 -- Main
@@ -210,12 +240,12 @@ do
 	TabsContainer.Size = UDim2.new(1, 0, 1, -75)
 	TabsContainer.Parent = MainContainer
 	makePadding(UDim.new(0, 0), UDim.new(0, 10), UDim.new(0, 10), UDim.new(0, 10), TabsContainer)
-	
+
 	local TabsLayout = Instance.new('UIListLayout')
 	TabsLayout.Padding = UDim.new(0, 15)
 	TabsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	TabsLayout.Parent = TabsContainer
-	
+
 	lib.Signal:newconn(inputService.InputBegan, function(key, gpe)
 		if gpe then return end
 
@@ -223,7 +253,7 @@ do
 			MainFrame.Visible = not MainFrame.Visible
 		end
 	end)
-	
+
 	function lib:CreateTab(name, image)
 		local Tab = Instance.new('TextButton')
 		Tab.BackgroundTransparency = 1
@@ -231,11 +261,11 @@ do
 		Tab.Size = UDim2.new(1, 0, 0, 50)
 		Tab.Text = ''
 		Tab.Parent = TabsContainer
-		
+
 		makeCorner(UDim.new(0, 8), Tab)
 		makePadding(UDim.new(0, 0), UDim.new(0, 10), UDim.new(0, 0), UDim.new(0, 0), Tab)
 		makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(67, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.8, Tab)
-		
+
 		local TabLayout = Instance.new('UIListLayout')
 		TabLayout.Padding = UDim.new(0, 5)
 		TabLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -243,7 +273,7 @@ do
 		TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
 		TabLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 		TabLayout.Parent = Tab
-		
+
 		if image and typeof(image) == 'string' then
 			local TabIcon = Instance.new('ImageLabel')
 			TabIcon.BackgroundTransparency = 1
@@ -253,7 +283,7 @@ do
 			TabIcon.ScaleType = Enum.ScaleType.Fit
 			TabIcon.Parent = Tab
 		end
-		
+
 		local TabName = Instance.new('TextLabel')
 		TabName.BackgroundTransparency = 1
 		TabName.BorderSizePixel = 0
@@ -266,7 +296,7 @@ do
 		TabName.Parent = Tab
 		makePadding(UDim.new(0, 0), UDim.new(0, image and 7 or 0), UDim.new(0, 0), UDim.new(0, 0), TabName)
 		makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, TabName)
-		
+
 		local ModuleContainer = Instance.new('ScrollingFrame')
 		ModuleContainer.BackgroundTransparency = 1
 		ModuleContainer.BorderSizePixel = 0
@@ -275,7 +305,7 @@ do
 		ModuleContainer.ScrollBarThickness = 0
 		ModuleContainer.ScrollingDirection = Enum.ScrollingDirection.Y
 		ModuleContainer.Parent = OtherContainer
-		
+
 		local ModuleCLayout = Instance.new('UIListLayout')
 		ModuleCLayout.Padding = UDim.new(0, 4)
 		ModuleCLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -283,13 +313,13 @@ do
 		ModuleCLayout.Wraps = true
 		ModuleCLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
 		ModuleCLayout.Parent = ModuleContainer
-		
+
 		if not activeTab then
 			activeTab = ModuleContainer
 		else
 			ModuleContainer.Visible = not ModuleContainer.Visible
 		end
-		
+
 		Tabs[name] = {
 			TabInst = Tab,
 			ContainerInst = ModuleContainer,
@@ -304,7 +334,7 @@ do
 						Sliders = {}
 					}
 				end
-				
+
 				local RModuleContainer = Instance.new('Frame')
 				RModuleContainer.AutomaticSize = Enum.AutomaticSize.Y
 				RModuleContainer.BackgroundTransparency = 1
@@ -312,7 +342,7 @@ do
 				RModuleContainer.Size = UDim2.fromOffset(218, 0)
 				RModuleContainer.Parent = ModuleContainer
 				makePadding(UDim.new(0, 5), UDim.new(0, 5), UDim.new(0, 5), UDim.new(0, 5), RModuleContainer)
-				
+
 				local ModuleLayout = Instance.new('UIListLayout')
 				ModuleLayout.Padding = UDim.new(0, 15)
 				ModuleLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -325,9 +355,9 @@ do
 				ModuleButton.Text = ''
 				ModuleButton.Parent = RModuleContainer
 				makeCorner(UDim.new(0, 8), ModuleButton)
-				
+
 				local ModuleStroke = makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(67, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, cfg[Table.Name].Enabled and 0.55 or 0.8, ModuleButton)
-				
+
 				local ModuleName = Instance.new('TextLabel')
 				ModuleName.BackgroundTransparency = 1
 				ModuleName.BorderSizePixel = 0
@@ -340,12 +370,12 @@ do
 				ModuleName.Parent = ModuleButton
 				makePadding(UDim.new(0, 0), UDim.new(0, 12), UDim.new(0, 0), UDim.new(0, 0), ModuleName)
 				makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, ModuleName)
-				
+
 				local TextConstraintNme = Instance.new('UITextSizeConstraint')
 				TextConstraintNme.MaxTextSize = 20
 				TextConstraintNme.MinTextSize = 1
 				TextConstraintNme.Parent = ModuleName
-				
+
 				local OptionsFrame = Instance.new('Frame')
 				OptionsFrame.AutomaticSize = Enum.AutomaticSize.Y
 				OptionsFrame.BackgroundTransparency = 1
@@ -354,13 +384,13 @@ do
 				makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(67, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.8, OptionsFrame)
 				makePadding(UDim.new(0, 8), UDim.new(0, 10), UDim.new(0, 10), UDim.new(0, 8), OptionsFrame)
 				makeCorner(UDim.new(0, 8), OptionsFrame)
-				
+
 				local OptionsLayout = Instance.new('UIListLayout')
 				OptionsLayout.Padding = UDim.new(0, 8)
 				OptionsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 				OptionsLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
 				OptionsLayout.Parent = OptionsFrame
-				
+
 				local moduleHandler = {
 					Enabled = cfg[Table.Name].Enabled,
 					Toggle = function(self)
@@ -375,22 +405,22 @@ do
 						configSys:Save()
 					end,
 				}
-				
+
 				function moduleHandler.CreateToggle(self, tab)
 					if not cfg[Table.Name].Toggles[tab.Name] then
 						cfg[Table.Name].Toggles[tab.Name] = {Enabled = false}
 					end
-					
+
 					if OptionsFrame.Parent == nil then
 						OptionsFrame.Parent = RModuleContainer
 					end
-					
+
 					local MiniTogFrame = Instance.new('Frame')
 					MiniTogFrame.BackgroundTransparency = 1
 					MiniTogFrame.BorderSizePixel = 0
 					MiniTogFrame.Size = UDim2.new(1, 0, 0, 35)
 					MiniTogFrame.Parent = OptionsFrame
-					
+
 					local Title = Instance.new('TextLabel')
 					Title.BackgroundTransparency = 1
 					Title.Size = UDim2.new(1, -40, 1, 0)
@@ -401,12 +431,12 @@ do
 					Title.TextXAlignment = Enum.TextXAlignment.Left
 					Title.Parent = MiniTogFrame
 					makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, Title)
-					
+
 					local TitleConstraint = Instance.new('UITextSizeConstraint')
 					TitleConstraint.MaxTextSize = 20
 					TitleConstraint.MinTextSize = 1
 					TitleConstraint.Parent = Title
-					
+
 					local ToggleButton = Instance.new('TextButton')
 					ToggleButton.AnchorPoint = Vector2.new(1, 0.5)
 					ToggleButton.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
@@ -416,9 +446,9 @@ do
 					ToggleButton.Text = ''
 					ToggleButton.Parent = MiniTogFrame
 					makeCorner(UDim.new(0, 8), ToggleButton)
-					
+
 					local MiniTogStroke = makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(67, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.8, ToggleButton)
-					
+
 					local moduleHandler = {
 						Enabled = cfg[Table.Name].Toggles[tab.Name].Enabled,
 						Toggle = function(self)
@@ -447,23 +477,23 @@ do
 
 					return moduleHandler
 				end
-				
+
 				function moduleHandler.CreateSlider(self, tab)
 					if not cfg[Table.Name].Sliders[tab.Name] then
 						cfg[Table.Name].Sliders[tab.Name] = {Value = tab.Default or tab.Min}
 					end
-					
+
 					if OptionsFrame.Parent == nil then
 						OptionsFrame.Parent = RModuleContainer
 					end
-					
+
 					local isDragging = false
 					local SliderFrame = Instance.new('Frame')
 					SliderFrame.BackgroundTransparency = 1
 					SliderFrame.BorderSizePixel = 0
 					SliderFrame.Size = UDim2.new(1, 0, 0, 35)
 					SliderFrame.Parent = OptionsFrame
-					
+
 					local SliderTitle = Instance.new('TextLabel')
 					SliderTitle.BackgroundTransparency = 1
 					SliderTitle.BorderSizePixel = 0
@@ -475,7 +505,7 @@ do
 					SliderTitle.TextXAlignment = Enum.TextXAlignment.Left
 					SliderTitle.Parent = SliderFrame
 					makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, SliderTitle)
-					
+
 					local SliderVal = Instance.new('TextBox')
 					SliderVal.AnchorPoint = Vector2.new(1, 0)
 					SliderVal.BackgroundTransparency = 1
@@ -490,7 +520,7 @@ do
 					SliderVal.TextXAlignment = Enum.TextXAlignment.Right
 					SliderVal.Parent = SliderFrame
 					makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, SliderVal)
-					
+
 					local SliderBck = Instance.new('Frame')
 					SliderBck.AnchorPoint = Vector2.new(0, 1)
 					SliderBck.BackgroundColor3 = Color3.fromRGB(127, 44, 41)
@@ -498,20 +528,20 @@ do
 					SliderBck.Position = UDim2.fromScale(0, 1)
 					SliderBck.Size = UDim2.new(1, 0, 0, 10)
 					SliderBck.Parent = SliderFrame
-					
+
 					local SliderFill = Instance.new('Frame')
 					SliderFill.BackgroundColor3 = Color3.fromRGB(221, 76, 71)
 					SliderFill.BorderSizePixel = 0
 					SliderFill.Size = UDim2.fromScale(0.5, 1)
 					SliderFill.Parent = SliderBck
-					
+
 					local SliderButton = Instance.new('TextButton')
 					SliderButton.Size = UDim2.new(1, 0, 1, 0)
 					SliderButton.BackgroundTransparency = 1
 					SliderButton.Text = ''
 					SliderButton.ZIndex = 2
 					SliderButton.Parent = SliderBck
-					
+
 					local percent = (cfg[Table.Name].Sliders[tab.Name].Value - tab.Min) / (tab.Max - tab.Min)
 					SliderFill.Size = UDim2.new(percent, 0, 1, 0)
 
@@ -583,7 +613,7 @@ do
 						if tab.Round then
 							value = math.floor(value / tab.Round) * tab.Round
 						end
-						
+
 						SliderFill.Size = UDim2.new((value - tab.Min) / (tab.Max - tab.Min), 0, 1, 0)
 						SliderVal.Text = string.format('%.2f', value)
 
@@ -594,7 +624,7 @@ do
 
 					return moduleHandler
 				end
-				
+
 				function moduleHandler.CreateDropdown(self, tab)
 					if not cfg[Table.Name].Dropdowns[tab.Name] then
 						cfg[Table.Name].Dropdowns[tab.Name] = {Value = tab.Default or tab.Options[1]}
@@ -603,13 +633,13 @@ do
 					if OptionsFrame.Parent == nil then
 						OptionsFrame.Parent = RModuleContainer
 					end
-					
+
 					local DropdownFrame = Instance.new('Frame')
 					DropdownFrame.BackgroundTransparency = 1
 					DropdownFrame.BorderSizePixel = 0
 					DropdownFrame.Size = UDim2.new(1, 0, 0, 30)
 					DropdownFrame.Parent = OptionsFrame
-					
+
 					local DropdownTitle = Instance.new('TextLabel')
 					DropdownTitle.AnchorPoint = Vector2.new(0, 0.5)
 					DropdownTitle.BackgroundTransparency = 1
@@ -623,12 +653,12 @@ do
 					DropdownTitle.TextXAlignment = Enum.TextXAlignment.Left
 					DropdownTitle.Parent = DropdownFrame
 					makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, DropdownTitle)
-					
+
 					local DropdownTitleConstraint = Instance.new('UITextSizeConstraint')
 					DropdownTitleConstraint.MaxTextSize = 20
 					DropdownTitleConstraint.MinTextSize = 1
 					DropdownTitleConstraint.Parent = DropdownTitle
-					
+
 					local DropdownButton = Instance.new('TextButton')
 					DropdownButton.AnchorPoint = Vector2.new(1, 0.5)
 					DropdownButton.BackgroundColor3 = Color3.fromRGB(221, 76, 71)
@@ -641,7 +671,7 @@ do
 					DropdownButton.Parent = DropdownFrame
 					makeCorner(UDim.new(0, 4), DropdownButton)
 					makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, DropdownButton)
-					
+
 					local DropdownHolder = Instance.new('Frame')
 					DropdownHolder.AutomaticSize = Enum.AutomaticSize.Y
 					DropdownHolder.BackgroundTransparency = 1
@@ -650,29 +680,29 @@ do
 					DropdownHolder.Size = UDim2.fromScale(1, 1)
 					DropdownHolder.Visible = false
 					DropdownHolder.Parent = DropdownButton
-					
+
 					local DropdownLayout = Instance.new('UIListLayout')
 					DropdownLayout.SortOrder = Enum.SortOrder.LayoutOrder
 					DropdownLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 					DropdownLayout.Parent = DropdownHolder
-					
+
 					local moduleHandler = {
 						Value = cfg[Table.Name].Dropdowns[tab.Name].Value,
 						Set = function(self, val)
 							cfg[Table.Name].Dropdowns[tab.Name].Value = val
 							self.Value = val
-							
+
 							DropdownButton.Text = val
 							DropdownHolder.Visible = false
-							
+
 							if tab.Function then
 								task.spawn(tab.Function, val)
 							end
-							
+
 							configSys:Save()
 						end,
 					}
-					
+
 					for i,v in tab.Options do
 						local OptionButton = Instance.new('TextButton')
 						OptionButton.BackgroundColor3 = Color3.fromRGB(209, 72, 67)
@@ -686,12 +716,12 @@ do
 						OptionButton.TextWrapped = true
 						OptionButton.Parent = DropdownHolder
 						makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, OptionButton)
-						
+
 						local OptionConstraint = Instance.new('UITextSizeConstraint')
 						OptionConstraint.MaxTextSize = 14
 						OptionConstraint.MinTextSize = 1
 						OptionConstraint.Parent = OptionButton
-						
+
 						lib.Signal:newconn(OptionButton.MouseButton1Click, function()
 							moduleHandler:Set(v)
 						end)
@@ -700,19 +730,19 @@ do
 					if cfg[Table.Name].Dropdowns[tab.Name].Value then
 						DropdownButton.Text = cfg[Table.Name].Dropdowns[tab.Name].Value
 						DropdownHolder.Visible = false
-							
+
 						if tab.Function then
 							task.spawn(tab.Function, cfg[Table.Name].Dropdowns[tab.Name].Value)
 						end
 					end
-					
+
 					lib.Signal:newconn(DropdownButton.MouseButton1Click, function()
 						DropdownHolder.Visible = not DropdownHolder.Visible
 					end)
-					
+
 					return moduleHandler
 				end
-				
+
 				lib.Signal:newconn(ModuleButton.MouseButton1Click, function()
 					moduleHandler:Toggle()
 				end)
@@ -723,7 +753,7 @@ do
 						task.spawn(Table.Function, cfg[Table.Name].Enabled)
 					end
 				end
-				
+
 				local KeybindTog = Instance.new('TextButton')
 				KeybindTog.AnchorPoint = Vector2.new(0.95, 0.5)
 				KeybindTog.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
@@ -735,11 +765,11 @@ do
 				KeybindTog.TextColor3 = Color3.fromRGB(255, 255, 255)
 				KeybindTog.TextSize = 20
 				KeybindTog.Parent = ModuleButton
-				
+
 				makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, KeybindTog)
 				makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(67, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.8, KeybindTog)
 				makeCorner(UDim.new(0, 6), KeybindTog)
-				
+
 				lib.Signal:newconn(KeybindTog.MouseButton1Click, function()
 					local conn
 					conn = inputService.InputBegan:Connect(function(key, gpe)
@@ -752,11 +782,11 @@ do
 							cfg[Table.Name].Keybind = tostring(Enum.KeyCode.Unknown):gsub('Enum.KeyCode.', '')
 							KeybindTog.Text = ''
 						end
-						
+
 						conn:Disconnect()
 					end)
 				end)
-				
+
 				lib.Signal:newconn(inputService.InputBegan, function(key, gpe)
 					if gpe then return end
 
@@ -766,17 +796,17 @@ do
 				end)
 
 				self.Modules[Table.Name] = moduleHandler
-				
+
 				for i, v in self.ContainerInst:GetChildren() do
 					if v:IsA('Frame') then
 						v.ZIndex = -i
 					end
 				end
-				
+
 				return moduleHandler
 			end,
 		}
-		
+
 		lib.Signal:newconn(Tab.MouseButton1Click, function()
 			for i,v in Tabs do
 				v.ContainerInst.Visible = false
@@ -785,7 +815,7 @@ do
 			activeTab = Tabs[name].ContainerInst
 			Tabs[name].ContainerInst.Visible = true
 		end)
-		
+
 		return Tabs[name]
 	end
 end
@@ -813,6 +843,7 @@ do
 	TargetHUDFContainer.Size = UDim2.fromOffset(200, 70)
 	TargetHUDFContainer.Visible = false
 	TargetHUDFContainer.Parent = VisualFrame
+	makeDraggable(TargetHUDFContainer)
 	makePadding(UDim.new(0, 0), UDim.new(0, 8), UDim.new(0, 6), UDim.new(0, 0), TargetHUDFContainer)
 	makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(255, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.7, TargetHUDFContainer)
 
@@ -838,14 +869,14 @@ do
 	TargetHUDContainer.BorderSizePixel = 0
 	TargetHUDContainer.Size = UDim2.fromOffset(120, 60)
 	TargetHUDContainer.Parent = TargetHUDFContainer
-	
+
 	local TargetHUDLayout = Instance.new('UIListLayout')
 	TargetHUDLayout.Padding = UDim.new(0, 14)
 	TargetHUDLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	TargetHUDLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
 	TargetHUDLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 	TargetHUDLayout.Parent = TargetHUDContainer
-	
+
 	local PlayerName = Instance.new('TextLabel')
 	PlayerName.AutomaticSize = Enum.AutomaticSize.X
 	PlayerName.BackgroundTransparency = 1
@@ -855,7 +886,7 @@ do
 	PlayerName.Text = ''
 	PlayerName.Parent = TargetHUDContainer
 	makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, PlayerName)
-	
+
 	local PlrHealthPercentage = Instance.new('TextLabel')
 	PlrHealthPercentage.AutomaticSize = Enum.AutomaticSize.X
 	PlrHealthPercentage.BackgroundTransparency = 1
@@ -865,10 +896,10 @@ do
 	PlrHealthPercentage.Text = '100%'
 	PlrHealthPercentage.Parent = TargetHUDContainer
 	makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, PlrHealthPercentage)
-	
+
 	function lib:CreateTargetHUD(visibility, plrnme, humanoid, thumbnail)		
 		TargetHUDFContainer.Visible = visibility
-		
+
 		if plrnme and humanoid then
 			PlayerName.Text = plrnme
 			PlrHealthPercentage.Text = math.floor((humanoid.Health / humanoid.MaxHealth) * 100)
@@ -895,6 +926,106 @@ do
 
 		ScreenGUI:Destroy()
 		lib = nil
+	end
+end
+
+do
+	local activeNotif
+	function lib:Notify(text, duration)
+		if activeNotif then
+			local SlideOut = tweenService:Create(activeNotif, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
+				Position = UDim2.fromScale(1.5, 0.8)
+			})
+			
+			SlideOut:Play()
+			SlideOut.Completed:Connect(function()
+				activeNotif:Destroy()
+				activeNotif = nil
+				SlideOut = nil
+			end)
+		end
+		
+		local Notification = Instance.new('Frame')
+		Notification.AnchorPoint = Vector2.new(1, 0.8)
+		Notification.AutomaticSize = Enum.AutomaticSize.X
+		Notification.BackgroundColor3 = Color3.fromRGB(204, 86, 86)
+		Notification.BorderSizePixel = 0
+		Notification.Position = UDim2.new(1.5, 0, 0.8, 0)
+		Notification.Size = UDim2.fromOffset(0, 80)
+		Notification.Parent = VisualFrame
+		makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(255, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.7, Notification)
+		makePadding(UDim.new(0, 0), UDim.new(0, 9), UDim.new(0, 9), UDim.new(0, 2), Notification)
+		
+		activeNotif = Notification
+		local NotificationLayout = Instance.new('UIListLayout')
+		NotificationLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		NotificationLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+		NotificationLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+		NotificationLayout.Parent = Notification
+		
+		local Title = Instance.new('TextLabel')
+		Title.AutomaticSize = Enum.AutomaticSize.X
+		Title.BackgroundTransparency = 1
+		Title.BorderSizePixel = 0
+		Title.Size = UDim2.fromOffset(0, 30)
+		Title.FontFace = Font.fromName('Montserrat', Enum.FontWeight.SemiBold)
+		Title.Text = 'kool.aid'
+		Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Title.TextSize = 18
+		Title.TextXAlignment = Enum.TextXAlignment.Left
+		Title.Parent = Notification
+		makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, Title)
+		
+		local Description = Instance.new('TextLabel')
+		Description.AutomaticSize = Enum.AutomaticSize.X
+		Description.BackgroundTransparency = 1
+		Description.BorderSizePixel = 0
+		Description.Size = UDim2.fromOffset(0, 30)
+		Description.FontFace = Font.fromName('Montserrat')
+		Description.Text = text
+		Description.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Description.TextSize = 20
+		Description.TextXAlignment = Enum.TextXAlignment.Left
+		Description.TextYAlignment = Enum.TextYAlignment.Top
+		Description.Parent = Notification
+		makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, Description)
+
+		local BarBack = Instance.new('Frame')
+		BarBack.BackgroundColor3 = Color3.fromRGB(127, 44, 41)
+		BarBack.BorderSizePixel = 0
+		BarBack.Size = UDim2.new(1, 0, 0, 10)
+		BarBack.Position = UDim2.new(0, 0, 1, -10)
+		BarBack.AnchorPoint = Vector2.new(0, 1)
+		BarBack.Parent = Notification
+
+		local BarFill = Instance.new('Frame')
+		BarFill.AnchorPoint = Vector2.new(1, 0)
+		BarFill.BackgroundColor3 = Color3.fromRGB(241, 83, 77)
+		BarFill.BorderSizePixel = 0
+		BarFill.Position = UDim2.fromScale(1, 0)
+		BarFill.Size = UDim2.new(1, 0, 1, 0)
+		BarFill.Parent = BarBack
+
+		tweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
+			Position = UDim2.fromScale(1, 0.8)
+		}):Play()
+		
+		tweenService:Create(BarFill, TweenInfo.new(duration or 3, Enum.EasingStyle.Linear), {
+			Size = UDim2.new(0, 0, 1, 0)
+		}):Play()
+		
+		task.delay(duration or 3, function()
+			local SlideOut = tweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
+				Position = UDim2.fromScale(1.5, 0.8)
+			})
+
+			SlideOut:Play()
+			SlideOut.Completed:Connect(function()
+				Notification:Destroy()
+				activeNotif = nil
+				SlideOut = nil
+			end)
+		end)
 	end
 end
 
