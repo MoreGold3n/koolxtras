@@ -1,3 +1,12 @@
+local animations = {
+	Sword = 'rbxassetid://81023102192808',
+	Hammer = 'rbxassetid://113992130601874',
+	Blocks = 'rbxassetid://76360831574790',
+	Pickaxe = 'rbxassetid://81023102192808',
+	GoldApple = 'rbxassetid://80789347313662',
+	Potion = 'rbxassetid://80789347313662'
+}
+	
 return {
     GetContainer = function(self)
         return workspace.CurrentCamera
