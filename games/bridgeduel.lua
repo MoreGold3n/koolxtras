@@ -145,6 +145,8 @@ do
 		Function = function(callback)
 			if callback then
 				repeat
+					task.wait(0.1)
+										
 					if Entity.isAlive(lplr) then
 						local tool = Entity.tool.getTool(lplr)
 	
@@ -197,8 +199,6 @@ do
 							end
 						end
 					end
-							
-					task.wait(.1)
 				until not Killaura.Enabled
 			end
 		end
