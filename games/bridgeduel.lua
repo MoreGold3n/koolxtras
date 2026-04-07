@@ -103,7 +103,7 @@ do
 	local Angle = {Value = 360}
 	local Range = {Value = 16}
 	local Wallcheck = {Enabled = false}
-	local Swing = {Enabled = false}
+	local Swing = {Enabled = true}
 	Killaura = Library.Tabs.Combat:CreateModule({
 		Name = 'Killaura',
 		Function = function(callback)
@@ -126,7 +126,8 @@ do
 		Name = 'Wallcheck'
 	})
 	Swing = Killaura:CreateToggle({
-		Name = 'Swing'
+		Name = 'Swing',
+		Enabled = true
 	})
 end
 
