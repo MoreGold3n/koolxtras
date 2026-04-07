@@ -44,7 +44,7 @@ do
 
 	if Detections.Logs['SwordH'] or Detections.Logs['BlockH'] then
 		writefile('koolaid/logs.json', HttpService:JSONEncode(Detections.Logs))
-		Library:notif('A detection has been tripped [HASH], use script with caution.', 5)
+		Library:notify('A detection has been tripped [HASH], use script with caution.', 5)
 	end
 end
 
@@ -119,3 +119,5 @@ do
 		Default = 16
     })
 end
+
+Library:notify('Loaded successfully! Press RShift to close the GUI', 6)
