@@ -120,4 +120,18 @@ do
     })
 end
 
+do
+	local Disabler
+	Disabler = Library.Tabs.Misc:CreateModule({
+		Name = 'Disabler',
+		Function = function(callback)
+			if callback then
+				Dependencies.Detections.Paths.SendReport.Parent = nil
+			else
+				Dependencies.Detections.Paths.SendReport = ReplicatedStorage.Modules.Knit.Services.NetworkService.RF
+			end
+		end
+	})
+end
+
 Library:notify('Loaded successfully! Press RShift to close the GUI', 6)
