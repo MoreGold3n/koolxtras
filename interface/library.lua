@@ -1,10 +1,10 @@
 --[[
-	
+
 	- [ stav.lua ] -
 	kool aid rewrite
-	
+
 	CREATED: [ 16/03 ] (2026)
-	
+
 ]]
 if not shared.place then shared.place = game.PlaceId end
 
@@ -380,6 +380,7 @@ do
 				OptionsFrame.AutomaticSize = Enum.AutomaticSize.Y
 				OptionsFrame.BackgroundTransparency = 1
 				OptionsFrame.Size = UDim2.fromScale(1, 0)
+				OptionsFrame.Visible = false
 				OptionsFrame.Parent = nil
 				makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(67, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.8, OptionsFrame)
 				makePadding(UDim.new(0, 8), UDim.new(0, 10), UDim.new(0, 10), UDim.new(0, 8), OptionsFrame)
@@ -747,12 +748,9 @@ do
 					moduleHandler:Toggle()
 				end)
 
-				if OptionsFrame.Parent ~= nil then
-					OptionsFrame.Visible = false
-					lib.Signal:newconn(ModuleButton.MouseButton2Click, function()
-						OptionsFrame.Visible = not OptionsFrame.Visible
-					end)
-				end
+				lib.Signal:newconn(ModuleButton.MouseButton2Click, function()
+					OptionsFrame.Visible = not OptionsFrame.Visible
+				end)
 
 				if cfg[Table.Name].Enabled and Table.Function then
 					tweenService:Create(ModuleStroke, TweenInfo.new(0.1), {Transparency = cfg[Table.Name].Enabled and 0.55 or 0.8}):Play()
@@ -837,7 +835,7 @@ VisualFrame.Parent = ScreenGUI
 --[[
 
 	Target HUD
-	
+
 ]]
 
 do
@@ -904,7 +902,7 @@ do
 	PlrHealthPercentage.Parent = TargetHUDContainer
 	makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, PlrHealthPercentage)
 
-	function lib:CreateTargetHUD(visibility, plrnme, humanoid, thumbnail)		
+	function lib:CreateTargetHUD(visibility, plrnme, humanoid, thumbnail)
 		TargetHUDFContainer.Visible = visibility
 
 		if plrnme and humanoid then
@@ -943,7 +941,7 @@ do
 			local SlideOut = tweenService:Create(activeNotif, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
 				Position = UDim2.fromScale(1.5, 0.85)
 			})
-			
+
 			SlideOut:Play()
 			SlideOut.Completed:Connect(function()
 				activeNotif:Destroy()
@@ -951,7 +949,7 @@ do
 				SlideOut = nil
 			end)
 		end
-		
+
 		local Notification = Instance.new('Frame')
 		Notification.AnchorPoint = Vector2.new(1, 0.85)
 		Notification.AutomaticSize = Enum.AutomaticSize.X
@@ -962,14 +960,14 @@ do
 		Notification.Parent = VisualFrame
 		makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(255, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.7, Notification)
 		makePadding(UDim.new(0, 0), UDim.new(0, 9), UDim.new(0, 9), UDim.new(0, 2), Notification)
-		
+
 		activeNotif = Notification
 		local NotificationLayout = Instance.new('UIListLayout')
 		NotificationLayout.SortOrder = Enum.SortOrder.LayoutOrder
 		NotificationLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
 		NotificationLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 		NotificationLayout.Parent = Notification
-		
+
 		local Title = Instance.new('TextLabel')
 		Title.AutomaticSize = Enum.AutomaticSize.X
 		Title.BackgroundTransparency = 1
@@ -982,7 +980,7 @@ do
 		Title.TextXAlignment = Enum.TextXAlignment.Left
 		Title.Parent = Notification
 		makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, Title)
-		
+
 		local Description = Instance.new('TextLabel')
 		Description.AutomaticSize = Enum.AutomaticSize.X
 		Description.BackgroundTransparency = 1
@@ -1016,11 +1014,11 @@ do
 		tweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
 			Position = UDim2.fromScale(1, 0.85)
 		}):Play()
-		
+
 		tweenService:Create(BarFill, TweenInfo.new(duration or 3, Enum.EasingStyle.Linear), {
 			Size = UDim2.new(0, 0, 1, 0)
 		}):Play()
-		
+
 		task.delay(duration or 3, function()
 			local SlideOut = tweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
 				Position = UDim2.fromScale(1.5, 0.85)
@@ -1125,6 +1123,8 @@ lib.Tabs.Misc:CreateModule({
 		end
 	end,
 })
+
+lib:Notify('Loaded!', 5)
 ]]
 
 return lib
