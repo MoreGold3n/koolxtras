@@ -163,7 +163,7 @@ do
 								end
 													
 								if plr and Entity.isAlive(plr) then
-									EntityCFrame = CFrame.lookAt(lplr.Character.PrimaryPart.Position, Vector3.new(plr.Character.PrimaryPart.Position.X, lplr.Character.PrimaryPart.Position.Y, plr.PrimaryPart.Position.Z))
+									EntityCFrame = CFrame.lookAt(lplr.Character.PrimaryPart.Position, Vector3.new(plr.Character.PrimaryPart.Position.X, lplr.Character.PrimaryPart.Position.Y, plr.Character.PrimaryPart.Position.Z))
 									pcall(Library.CreateTargetHUD, Library, TargetHUD.Enabled, plr.Name, plr.Character:FindFirstChildOfClass('Humanoid'), Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48))
 									ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(AutoBlock.Enabled, tool)
 	
@@ -249,31 +249,33 @@ do
 	})
 end
 
-do
-	local Rotations, original
-	Rotations = Library.Tabs.Combat:CreateModule({
-		Name = 'Rotations',
-		Function = function(callback)
-			if callback then
-				original = Functions.hookmetamethod(game, '__newindex', function(self, key, val)
-					if self == lplr.Character.PrimaryPart and key == 'CFrame' then
-						if not Flight.Enabled then
-							if Killaura.Enabled and EntityCFrame then
-								return original(self, key, EntityCFrame)
+if hookmetamethod then
+	do
+		local Rotations, original
+		Rotations = Library.Tabs.Combat:CreateModule({
+			Name = 'Rotations',
+			Function = function(callback)
+				if callback then
+					original = hookmetamethod(game, '__newindex', function(self, key, val)
+						if self == lplr.Character.PrimaryPart and key == 'CFrame' then
+							if not Flight.Enabled then
+								if Killaura.Enabled and EntityCFrame then
+									return original(self, key, EntityCFrame)
+								end
 							end
 						end
+	
+						return original(self, key, val)
+					end)
+				else
+					if original then
+						hookmetamethod(game, '__newindex', original)
+						original = nil
 					end
-
-					return original(self, key, val)
-				end)
-			else
-				if original then
-					Functions.hookmetamethod(game, '__newindex', original)
-					original = nil
 				end
 			end
-		end
-	})
+		})
+	end
 end
 
 --[[
