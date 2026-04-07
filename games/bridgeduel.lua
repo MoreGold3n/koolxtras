@@ -39,6 +39,10 @@ local Dependencies = {
 	}
 }
 
+--[[
+	Combat
+]]
+
 do
 	Dependencies.Detections:test('hash')
 
@@ -91,6 +95,38 @@ do
 				Dependencies.Paths.Knockback.Parent = ReplicatedStorage.Modules.Knit.Services.CombatService.RE
 			end
 		end
+	})
+end
+
+do
+	local Killarua
+	local Angle = {Value = 360}
+	local Range = {Value = 16}
+	local Wallcheck = {Enabled = false}
+	local Swing = {Enabled = false}
+	Killaura = Library.Tabs.Combat:CreateModule({
+		Name = 'Killaura',
+		Function = function(callback)
+			print(callback)
+		end
+	})
+	Angle = Killaura:CreateSlider({
+		Name = 'Max Angle',
+		Min = 1,
+		Max = 360,
+		Default = 360
+	})
+	Range = Killaura:CreateSlider({
+		Name = 'Range',
+		Min = 1,
+		Max = 18,
+		Default = 16
+	})
+	Wallcheck = Killaura:CreateToggle({
+		Name = 'Wallcheck'
+	})
+	Swing = Killaura:CreateToggle({
+		Name = 'Swing'
 	})
 end
 
