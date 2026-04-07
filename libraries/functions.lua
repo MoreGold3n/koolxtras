@@ -228,7 +228,7 @@ module.hook = hookfunction or hook_function or hookfunc or function(old, new)
 end
 
 module.hookmetamethod = hookmetamethod or function(obj, metamethod, func)
-	local rmt = library.Metatable.get_all_L_closures(obj)
+	local rmt = Metatable.get_all_L_closures(obj)
 	local mt = getmetatable(obj)
 
 	local old = rmt[metamethod]
