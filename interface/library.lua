@@ -849,7 +849,7 @@ do
 	TargetHUDFContainer.Visible = false
 	TargetHUDFContainer.Parent = VisualFrame
 	makeDraggable(TargetHUDFContainer)
-	makePadding(UDim.new(0, 0), UDim.new(0, 8), UDim.new(0, 6), UDim.new(0, 0), TargetHUDFContainer)
+	makePadding(UDim.new(0, 0), UDim.new(0, 8), UDim.new(0, 8), UDim.new(0, 0), TargetHUDFContainer)
 	makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(255, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.7, TargetHUDFContainer)
 
 	local THCLayout = Instance.new('UIListLayout')
