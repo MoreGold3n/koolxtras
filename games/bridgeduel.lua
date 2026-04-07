@@ -30,7 +30,8 @@ local Raycast = loadstring(downloadFile('koolaid/libraries/raycast.lua'))()
 local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
 
 local Dependencies = {
-    Blink = Functions.require(ReplicatedStorage.Blink.Client)
+    Blink = Functions.require(ReplicatedStorage.Blink.Client),
+	Entity = Functions.require(ReplicatedStorage.Modules.Entity)
 }
 
 do
