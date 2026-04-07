@@ -1,10 +1,10 @@
 --[[
-
+	
 	- [ stav.lua ] -
 	kool aid rewrite
-
+	
 	CREATED: [ 16/03 ] (2026)
-
+	
 ]]
 if not shared.place then shared.place = game.PlaceId end
 
@@ -380,7 +380,6 @@ do
 				OptionsFrame.AutomaticSize = Enum.AutomaticSize.Y
 				OptionsFrame.BackgroundTransparency = 1
 				OptionsFrame.Size = UDim2.fromScale(1, 0)
-				OptionsFrame.Visible = false
 				OptionsFrame.Parent = nil
 				makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(67, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.8, OptionsFrame)
 				makePadding(UDim.new(0, 8), UDim.new(0, 10), UDim.new(0, 10), UDim.new(0, 8), OptionsFrame)
@@ -747,10 +746,13 @@ do
 				lib.Signal:newconn(ModuleButton.MouseButton1Click, function()
 					moduleHandler:Toggle()
 				end)
-
-				lib.Signal:newconn(ModuleButton.MouseButton2Click, function()
-					OptionsFrame.Visible = not OptionsFrame.Visible
-				end)
+				
+				if OptionsFrame.Parent ~= nil then
+					OptionsFrame.Visible = false
+					lib.Signal:newconn(ModuleButton.MouseButton2Click, function()
+						OptionsFrame.Visible = not OptionsFrame.Visible
+					end)
+				end
 
 				if cfg[Table.Name].Enabled and Table.Function then
 					tweenService:Create(ModuleStroke, TweenInfo.new(0.1), {Transparency = cfg[Table.Name].Enabled and 0.55 or 0.8}):Play()
@@ -835,7 +837,7 @@ VisualFrame.Parent = ScreenGUI
 --[[
 
 	Target HUD
-
+	
 ]]
 
 do
@@ -866,7 +868,7 @@ do
 	TargetIcon.Size = UDim2.fromOffset(55, 55)
 	TargetIcon.ScaleType = Enum.ScaleType.Fit
 	TargetIcon.Parent = TargetHUDFContainer
-	makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(255, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.7, TargetIcon)
+	makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(0, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.7, TargetIcon)
 
 	local TargetHUDContainer = Instance.new('Frame')
 	TargetHUDContainer.AutomaticSize = Enum.AutomaticSize.X
@@ -889,6 +891,8 @@ do
 	PlayerName.Size = UDim2.fromOffset(0, 0)
 	PlayerName.FontFace = Font.fromName('Montserrat', Enum.FontWeight.SemiBold)
 	PlayerName.Text = ''
+	PlayerName.TextColor3 = Color3.fromRGB(255, 255, 255)
+	PlayerName.TextSize = 14
 	PlayerName.Parent = TargetHUDContainer
 	makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, PlayerName)
 
@@ -899,15 +903,17 @@ do
 	PlrHealthPercentage.Size = UDim2.fromOffset(0, 0)
 	PlrHealthPercentage.FontFace = Font.fromName('Montserrat', Enum.FontWeight.SemiBold)
 	PlrHealthPercentage.Text = '100%'
+	PlrHealthPercentage.TextColor3 = Color3.fromRGB(255, 255, 255)
+	PlrHealthPercentage.TextSize = 12
 	PlrHealthPercentage.Parent = TargetHUDContainer
 	makeStroke(Enum.ApplyStrokeMode.Contextual, Color3.fromRGB(0,0,0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 2, 0.75, PlrHealthPercentage)
 
-	function lib:CreateTargetHUD(visibility, plrnme, humanoid, thumbnail)
+	function lib:CreateTargetHUD(visibility, plrnme, humanoid, thumbnail)		
 		TargetHUDFContainer.Visible = visibility
 
 		if plrnme and humanoid then
 			PlayerName.Text = plrnme
-			PlrHealthPercentage.Text = math.floor((humanoid.Health / humanoid.MaxHealth) * 100)
+			PlrHealthPercentage.Text = math.floor((humanoid.Health / humanoid.MaxHealth) * 100)..'%'
 			TargetIcon.Image = thumbnail ~= nil and thumbnail or 'rbxassetid://134476270255159'
 		end
 	end
@@ -1123,8 +1129,6 @@ lib.Tabs.Misc:CreateModule({
 		end
 	end,
 })
-
-lib:Notify('Loaded!', 5)
 ]]
 
 return lib
