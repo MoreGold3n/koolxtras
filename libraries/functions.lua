@@ -1,6 +1,6 @@
 --[[
 
-    Credits to @Experience_Member and @SQLanguage on the DevForum for making hookfunction possible!
+    Credits to @Experience_Member and @SQLanguage on the DevForum for making hookfunction and hookmetamethod possible!
     Experience_Member: https://devforum.roblox.com/u/Experience_Member
     SQLanguage: https://devforum.roblox.com/u/SQLanguage
 
