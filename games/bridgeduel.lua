@@ -31,7 +31,10 @@ local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
 
 local Dependencies = {
     Blink = Functions.require(ReplicatedStorage.Blink.Client),
-	Entity = Functions.require(ReplicatedStorage.Modules.Entity)
+	Entity = Functions.require(ReplicatedStorage.Modules.Entity),
+	Paths = {
+		Knockback = ReplicatedStorage.Modules.Knit.Services.CombatService.RE.KnockBackApplied
+	}
 }
 
 do
@@ -64,6 +67,16 @@ do
 		Max = 20,
 		Default = 12
     })
+end
+
+do
+	local AntiKB
+	AntiKB = Library.Tabs.Combat:CreateModule({
+		Name = 'AntiKB'
+		Function = function(callback)
+			Dependencies.Paths.Knockback.Parent = callback and nil or ReplicatedStorage.Modules.Knit.Services.CombatService.RE
+		end
+	})
 end
 
 do
