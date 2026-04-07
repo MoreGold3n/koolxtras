@@ -151,7 +151,15 @@ do
 						local tool = Entity.tool.getTool(lplr)
 	
 						if tool and tool:HasTag('Sword') then
-							local plr = pcall(Entity.GetClosestPlayer, Entity, Range.Value, Angle.Value, Wallcheck.Enabled)
+							local suc, res = pcall(function()
+								return Entity:GetClosestPlayer(Entity, Range.Value, Angle.Value, Wallcheck.Enabled)
+							end)
+
+							local plr
+							if suc and res then
+								plr = res
+							end
+												
 							if plr and Entity.isAlive(plr) then
 								pcall(Library.CreateTargetHUD, Library, TargetHUD.Enabled, plr.Name, plr.Character:FindFirstChildOfClass('Humanoid'), Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48))
 								ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(AutoBlock.Enabled, tool)
