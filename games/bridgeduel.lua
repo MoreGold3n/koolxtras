@@ -25,6 +25,7 @@ end
 
 local Library = loadstring(downloadFile('koolaid/interface/library.lua'))()
 
+local Detections = loadstring(downloadFile('koolaid/libraries/bridgeduel/detections.lua'))()
 local Functions = loadstring(downloadFile('koolaid/libraries/functions.lua'))()
 local Raycast = loadstring(downloadFile('koolaid/libraries/raycast.lua'))()
 local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
