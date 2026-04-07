@@ -267,11 +267,12 @@ do
 end
 
 do
-	local Flight, OldY
+	local Flight, OldY, NewY
 	Flight = Library.Tabs.Movement:CreateModule({
 		Name = 'Flight',
 		Function = function(callback)
 			if callback then
+				NewY = 0
 				OldY = lplr.Character.PrimaryPart.Position.Y
 
 				repeat
