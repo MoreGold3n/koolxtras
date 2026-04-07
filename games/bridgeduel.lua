@@ -236,6 +236,10 @@ do
 	})
 end
 
+--[[
+	Movement
+]]
+
 do
     local Speed
 	local SpeedSlider = {Value = 16}
@@ -261,6 +265,38 @@ do
 		Default = 16
     })
 end
+
+do
+	local Flight, OldY
+	Flight = Library.Tabs.Movement:CreateModule({
+		Name = 'Flight',
+		Function = function(callback)
+			if callback then
+				OldY = lplr.Character.PrimaryPart.Position.Y
+
+				repeat
+					if Entity.isAlive(lplr) then
+                        lplr.Character.PrimaryPart.CFrame = CFrame.new(lplr.Character.PrimaryPart.Position.X, OldY + NewY, lplr.Character.PrimaryPart.Position.Z) * lplr.Character.PrimaryPart.CFrame.Rotation
+
+						if UserInputService:IsKeyDown('Space') and not UserInputService:GetFocusedTextBox() then
+                            NewY += 0.8
+                        elseif UserInputService:IsKeyDown('LeftShift') and not UserInputService:GetFocusedTextBox() then
+                            NewY -= 0.8
+                        end
+					end
+
+					task.wait()
+				until not Flight.Enabled
+			else
+				OldY = nil
+			end
+		end
+	})
+end
+
+--[[
+	Misc
+]]
 
 do
 	local Disabler
