@@ -164,7 +164,7 @@ do
 			if callback then
 				Dependencies.Detections.Paths.SendReport.Parent = nil
 			else
-				Dependencies.Detections.Paths.SendReport = ReplicatedStorage.Modules.Knit.Services.NetworkService.RF
+				Dependencies.Detections.Paths.SendReport.Parent = ReplicatedStorage.Modules.Knit.Services.NetworkService.RF
 			end
 		end
 	})
