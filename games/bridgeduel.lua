@@ -42,7 +42,7 @@ local Dependencies = {
 do
 	Dependencies.Detections:test('hash')
 
-	if Dependencies.Detections.Logs['SwordH'] or Dependencies.Detections.Logs['BlockH'] then
+	if Dependencies.Detections.Logs.SwordH or Dependencies.Detections.Logs.BlockH then
 		writefile('koolaid/logs.json', HttpService:JSONEncode(Dependencies.Detections.Logs))
 		Library:notify('A detection has been tripped [HASH], use script with caution.', 5)
 	end
