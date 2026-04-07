@@ -40,13 +40,13 @@ function entity:GetClosestPlayer(range, angle, wallcheck)
 
 			local suc, res = pcall(function()
 		        local plrdir = math.deg(lplr.Character.HumanoidRootPart.CFrame.LookVector:Angle((v.Character.PrimaryPart.Position - lplr.Character.PrimaryPart.Position).Unit))
-		        if angle <= plrdir / 2 then continue end
-		
-		        local dist = lplr:DistanceFromCharacter(v.Character.PrimaryPart.Position)
-		        if dist < minrnge then
-		            minrnge = dist
-		            entity = v
-		        end
+		        if not angle <= plrdir / 2 then
+			        local dist = lplr:DistanceFromCharacter(v.Character.PrimaryPart.Position)
+			        if dist < minrnge then
+			            minrnge = dist
+			            entity = v
+			        end
+				end
 			end)
 
 			if suc and res ~= nil then
