@@ -159,14 +159,17 @@ do
 									ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(AutoBlock.Enabled, tool)
 								end
 
+								print(Swing.Enabled)
 								if Swing.Enabled and SwingDelay < tick() then
 									SwingDelay = tick() + 0.25
+									print('playing')
 									lplr.Character.Humanoid.Animator:LoadAnimation(tool.Animations.Swing):Play()
 
 									if setthreadidentity then
 										setthreadidentity(2)
 									end
 									Dependencies.Viewmodel:PlayAnimation(tool.Name)
+									print('yo?')
 									if setthreadidentity then
 										setthreadidentity(8)
 									end
