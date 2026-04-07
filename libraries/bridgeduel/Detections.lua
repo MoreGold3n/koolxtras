@@ -29,7 +29,7 @@ function Detections:test(type)
 			Logs['SwordH'] = 'Hash was not the same (Dev\'s changed the hash -- report this to kool aid devs)'
 	    end
 
-		if getscripthash(Detections.Path.Client.Block) ~= '0A18604C086353174AC08ED5922985BC5CB111675EE654B8A67D77EA9700B8E6' then
+		if getscripthash(Detections.Paths.Client.Block) ~= '0A18604C086353174AC08ED5922985BC5CB111675EE654B8A67D77EA9700B8E6' then
 	        Count += 1
 			Logs['BlockH'] = 'Hash was not the same (Dev\'s changed the hash -- report this to kool aid devs)'
 	    end
