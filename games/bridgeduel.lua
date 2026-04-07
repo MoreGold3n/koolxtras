@@ -34,6 +34,7 @@ local Dependencies = {
     Blink = Functions.require(ReplicatedStorage.Blink.Client),
 	Detections = Functions.requirejank.helper:Fetch('Detections'),
 	Entity = Functions.require(ReplicatedStorage.Modules.Entity),
+	Viewmodel = Functions.require(ReplicatedStorage.Client.Controllers.All.ViewmodelController),
 	Paths = {
 		Knockback = ReplicatedStorage.Modules.Knit.Services.CombatService.RE.KnockBackApplied
 	}
@@ -138,7 +139,7 @@ do
 	local Range = {Value = 16}
 	local TargetHUD = {Enabled = false}
 	local Wallcheck = {Enabled = false}
-	local Swing = {Enabled = true}
+	local Swing, SwingDelay = {Enabled = true}, tick()
 	Killaura = Library.Tabs.Combat:CreateModule({
 		Name = 'Killaura',
 		Function = function(callback)
@@ -150,8 +151,26 @@ do
 						if tool and tool:HasTag('Sword') then
 							local plr = Entity:GetClosestPlayer(Range.Value, Angle.Value, Wallcheck.Enabled)
 							if plr and Entity.isAlive(plr) then
-								pcall(Library.CreateTargetHUD, Library, TargetHUD.Enabled, plr.Name, plr.Character:FindFirstChildOfClass('Humanoid'), Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48))
-								ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(AutoBlock.Enabled, tool)
+								if TargetHUD.Enabled then
+									pcall(Library.CreateTargetHUD, Library, TargetHUD.Enabled, plr.Name, plr.Character:FindFirstChildOfClass('Humanoid'), Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48))
+								end
+													
+								if AutoBlock.Enabled then
+									ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(AutoBlock.Enabled, tool)
+								end
+
+								if Swing.Enabled and SwingDelay < tick() then
+									SwingDelay = tick() + 0.25
+									lplr.Character.Humanoid.Animator:LoadAnimation(tool.Animations.Swing):Play()
+
+									if setthreadidentity then
+										setthreadidentity(2)
+									end
+									Dependencies.ViewmodelController:PlayAnimation(tool.Name)
+									if setthreadidentity then
+										setthreadidentity(8)
+									end
+								end
 
 								local bdplr = Dependencies.Entity.FindByCharacter(plr.Character)
 								if bdplr and bdplr.Id then
