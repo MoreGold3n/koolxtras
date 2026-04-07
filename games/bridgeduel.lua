@@ -133,15 +133,54 @@ end
 
 do
 	local Killaura
+	local AutoBlock = {Enabled = true}
 	local Angle = {Value = 360}
 	local Range = {Value = 16}
+	local TargetHUD = {Enabled = false}
 	local Wallcheck = {Enabled = false}
 	local Swing = {Enabled = true}
 	Killaura = Library.Tabs.Combat:CreateModule({
 		Name = 'Killaura',
 		Function = function(callback)
-			print(callback)
+			if callback then
+				repeat
+					if entity.isAlive(lplr) then
+						local tool = Entity.tool.getTool(lplr)
+	
+						if tool and tool:HasTag('Sword') then
+							local plr = Entity:getClosestPlayer(Range.Value, Angle.Value, Wallcheck.Enabled)
+							if plr and entity.isAlive(plr) then
+								Library:CreateTargetHUD(TargetHUD.Enabled, plr.Name, Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48), plr.Character:FindFirstChildOfClass('Humanoid'))
+								ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(AutoBlock.Enabled, tool)
+
+								local bdplr = Dependencies.Entity.FindByCharacter(plr.Character)
+								if bdplr and bdplr.Id then
+									Dependencies.Blink.item_action.attack_entity.fire({
+										target_entity_id = bdplr.Id,
+										is_crit = (AuraCrits and true) or lplr.Character.HumanoidRootPart.AssemblyLinearVelocity.Y < 0,
+										weapon_name = tool.Name,
+										extra = {
+											rizz = 'Bro.',
+											owo = 'What\'s this? OwO ',
+											those = workspace.Name == 'Ok'
+										}
+									})
+								end
+							else
+								Library:CreateTargetHUD(false, plr.Name, Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48), plr.Character:FindFirstChildOfClass('Humanoid'))
+								ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(false, tool)
+							end
+						end
+					end
+							
+					task.wait(.1)
+				until not Killaura.Enabled
+			end
 		end
+	})
+	AutoBlock = Killaura:CreateToggle({
+		Name = 'AutoBlock',
+		Enabled = true
 	})
 	Angle = Killaura:CreateSlider({
 		Name = 'Max Angle',
@@ -154,6 +193,9 @@ do
 		Min = 1,
 		Max = 18,
 		Default = 16
+	})
+	TargetHUD = Killaura:CreateToggle({
+		Name = 'HUD'
 	})
 	Wallcheck = Killaura:CreateToggle({
 		Name = 'Wallcheck'
