@@ -167,8 +167,14 @@ do
 									})
 								end
 							else
-								Library:CreateTargetHUD(false, plr.Name, Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48), plr.Character:FindFirstChildOfClass('Humanoid'))
-								ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(false, tool)
+								Library:CreateTargetHUD(false)
+
+								if Entity.isAlive(lplr) then
+									local tool = Entity.tool.getTool(lplr)
+									if tool and tool:HasTag('Sword') then
+										ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(false, tool)
+									end
+								end
 							end
 						end
 					end
