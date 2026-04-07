@@ -747,6 +747,13 @@ do
 					moduleHandler:Toggle()
 				end)
 
+				if OptionsFrame.Parent ~= nil then
+					OptionsFrame.Visible = false
+					lib.Signal:newconn(ModuleButton.MouseButton2Click, function()
+						OptionsFrame.Visible = not OptionsFrame.Visible
+					end)
+				end
+
 				if cfg[Table.Name].Enabled and Table.Function then
 					tweenService:Create(ModuleStroke, TweenInfo.new(0.1), {Transparency = cfg[Table.Name].Enabled and 0.55 or 0.8}):Play()
 					if Table.Function then
