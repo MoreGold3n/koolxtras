@@ -10,6 +10,7 @@ local Services = setmetatable({}, {
 
 local ReplicatedStorage = Services.ReplicatedStorage
 local UserInputService = Services.UserInputService
+local HttpService = Services.HttpService
 local Players = Services.Players
 local lplr = Players.LocalPlayer
 
@@ -37,6 +38,15 @@ local Dependencies = {
 		Knockback = ReplicatedStorage.Modules.Knit.Services.CombatService.RE.KnockBackApplied
 	}
 }
+
+do
+	Detections:test('hash')
+
+	if Detections.Logs['SwordH'] or Detections.Logs['BlockH'] then
+		writefile('koolaid/logs.json', HttpService:JSONEncode(Detections.Logs))
+		--Library:notif('Hash detection tripped - use with caution')
+	end
+end
 
 do
 	local AutoClicker
@@ -109,5 +119,3 @@ do
 		Default = 16
     })
 end
-
-print(Dependencies.Blink)
