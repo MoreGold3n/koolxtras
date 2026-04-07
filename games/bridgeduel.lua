@@ -152,7 +152,7 @@ do
 	
 						if tool and tool:HasTag('Sword') then
 							local suc, res = pcall(function()
-								return Entity:GetClosestPlayer(Entity, Range.Value, Angle.Value, Wallcheck.Enabled)
+								return Entity:GetClosestPlayer(Range.Value, Angle.Value, Wallcheck.Enabled)
 							end)
 
 							local plr
