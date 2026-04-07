@@ -289,7 +289,10 @@ do
 					task.wait()
 				until not Flight.Enabled
 			else
-				OldY = nil
+				NewY = 0
+				if Entity.isAlive(lplr) then
+					OldY = lplr.Character.PrimaryPart.Position.Y
+				end
 			end
 		end
 	})
