@@ -840,11 +840,11 @@ VisualFrame.Parent = ScreenGUI
 
 do
 	local TargetHUDFContainer = Instance.new('Frame')
-	TargetHUDFContainer.AnchorPoint = Vector2.new(0, 0.5)
+	TargetHUDFContainer.AnchorPoint = Vector2.new(0.5, 0.85)
 	TargetHUDFContainer.AutomaticSize = Enum.AutomaticSize.X
 	TargetHUDFContainer.BackgroundColor3 = Color3.fromRGB(204, 86, 86)
 	TargetHUDFContainer.BorderSizePixel = 0
-	TargetHUDFContainer.Position = UDim2.fromScale(0, 0.5)
+	TargetHUDFContainer.Position = UDim2.fromScale(0.5, 0.85)
 	TargetHUDFContainer.Size = UDim2.fromOffset(200, 70)
 	TargetHUDFContainer.Visible = false
 	TargetHUDFContainer.Parent = VisualFrame
