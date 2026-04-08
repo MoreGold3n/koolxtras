@@ -117,15 +117,18 @@ end
 
 do
     local AntiKB, AntiKBConn
-	local VeloStore = {}
+	local OGLifeTimes = {
+		
     AntiKB = Library.Tabs.Combat:CreateModule({
         Name = 'AntiKB',
         Function = function(callback)
             if callback then
                 for i,v in Dependencies.Modules.VeloUtils:GetChildren() do
                     if v.ClassName == 'LinearVelocity' then
-                        table.insert(VeloStore, v)
-						v.Parent = nil
+						OGLifeTimes[v] = {
+							LifeTime = v.LifeTime
+						}
+						v.LifeTime = 0
                     end
 
                     continue
@@ -133,8 +136,10 @@ do
 
                 AntiKBConn = Dependencies.Modules.VeloUtils.ChildAdded:Connect(function(obj)
                     if obj.ClassName == 'LinearVelocity' then
-                        table.insert(VeloStore, obj)
-						obj.Parent = nil
+                        OGLifeTimes[v] = {
+							LifeTime = v.LifeTime
+						}
+						v.LifeTime = 0
                     end
                 end)
             else
@@ -143,10 +148,13 @@ do
                     AntiKBConn = nil
                 end
 
-				for i,v in VeloStore do
-					v.Parent = Dependencies.Modules.VeloUtils
-					i = nil
-				end
+				for i,v in Dependencies.Modules.VeloUtils:GetChildren() do
+                    if v.ClassName == 'LinearVelocity' and table.find(OGLifeTimes, v) then
+                        v.LifeTime = OGLifeTimes[v].LifeTime
+                    end
+
+                    continue
+                end
             end
         end
     })
