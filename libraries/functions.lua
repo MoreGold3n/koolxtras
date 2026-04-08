@@ -264,12 +264,12 @@ do
 	    Url = 'https://httpbin.org/get',
 	    Method = 'GET',
 	    Headers = {
-	        Content-Type = 'application/json'
+	        ['Content-Type'] = 'application/json'
 	    }
 	})
 	
 	if res.Success then
-	    local data = HttpService:JSONDecode(response.Body)
+	    local data = HttpService:JSONDecode(res.Body)
 	    for i,v in data.headers do
 	        if string.match(i, 'Xeno-Fingerprint') then
 	             xenoPaste = true
