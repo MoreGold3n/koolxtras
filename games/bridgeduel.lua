@@ -392,7 +392,7 @@ do
             end
         end
     })
-    Method = AntiStaff:CreateSlider({
+    Method = AntiStaff:CreateDropdown({
         Name = 'Method',
         Options = {'Notify', 'Uninject', 'Kick'},
         Default = 'Notify'
