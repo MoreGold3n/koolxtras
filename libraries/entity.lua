@@ -56,11 +56,11 @@ function entity.tool.getTool(plr)
     return plr.Character and plr.Character:FindFirstChildOfClass('Tool') or nil
 end
 
-function entity.tool.getToolNme(plr, tool)
+function entity.tool.hasTool(plr, tool)
     return plr.Character and plr.Character:FindFirstChild(tool) or nil
 end
 
-function entity.tool.getInv(plr, tool)
+function entity.tool.hasToolInv(plr, tool)
     return plr.Backpack and plr.Backpack:FindFirstChild(tool) or nil
 end
 
