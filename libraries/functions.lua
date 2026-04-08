@@ -280,4 +280,5 @@ module.require = function(moduleScript: Instance): Instance
 	return module.requirejank.helper:Fetch(moduleScript.Parent.Name == 'Blink' and 'Blink' or moduleScript.Name)
 end
 
+print('is it me?')
 return module
