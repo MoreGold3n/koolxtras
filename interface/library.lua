@@ -950,7 +950,7 @@ do
 			table.remove(activeNotifs, guiObj)
 		end
 
-		local SlideOut = tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
+		local SlideOut = tweenService:Create(ind, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
 			Position = UDim2.new(1.5, 0, notif.Position.Y.Scale, 0)
 		})
 		SlideOut:Play()
@@ -959,7 +959,7 @@ do
 			
 			for i,v in activeNotifs do
 				local targetY = 0.85 - ((i - 1) * (90 / workspace.CurrentCamera.ViewportSize.Y))
-				tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
+				tweenService:Create(v, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
 					Position = UDim2.fromScale(1, targetY)
 				}):Play()
 			end
@@ -1035,7 +1035,7 @@ do
 		table.insert(activeNotifs, 1, Notification)
 		for i,v in activeNotifs do
 			local targetY = 0.85 - ((i - 1) * (90 / workspace.CurrentCamera.ViewportSize.Y))
-			tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
+			tweenService:Create(v, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
 				Position = UDim2.fromScale(1, targetY)
 			}):Play()
 		end
