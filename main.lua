@@ -36,19 +36,11 @@ if identifyexecutor then
 	if table.find({'Xeno', '5.0'}, ({identifyexecutor()})[1]) or not (debug.getupvalue or debug.getupvalues or debug.getproto or debug.getconstants or hookfunction or hookmetamethod or getconnections or require) then
 		shared.badexecs = true
 	end
-
-	if require then
-    	local suc = pcall(function() return require(lplr.PlayerScripts.PlayerModule).controls end)
-
-    	if not suc then
-    		shared.badexecs = true
-    	end
-    end
 end
 
+loadstring(downloadFile('koolaid/interface/library.lua'))()
 for i,v in ids do
     if table.find(v, game.PlaceId) then
-		loadstring(downloadFile('koolaid/interface/library.lua'))()
         local suc, res = pcall(downloadFile, 'koolaid/games/'..i..'.lua')
 
         if not suc then
