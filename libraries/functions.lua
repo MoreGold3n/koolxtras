@@ -270,16 +270,18 @@ function module.requirejank.helper:Fetch(file: string): string
 end
 
 module.require = function(moduleScript: Instance): Instance
-	local require = Tester:GetFunction("require")
+	return xpcall(function()
+		local require = Tester:GetFunction("require")
+		
+		local suc, res = pcall(function()
+			return require(moduleScript)
+		end)
+		if suc and res ~= nil then
+			return res
+		end
 	
-	local suc, res = pcall(function()
-		return require(moduleScript)
-	end)
-	if suc and res ~= nil then
-		return res
-	end
-
-	return module.requirejank.helper:Fetch(moduleScript.Parent.Name == 'Blink' and 'Blink' or moduleScript.Name)
+		return module.requirejank.helper:Fetch(moduleScript.Parent.Name == 'Blink' and 'Blink' or moduleScript.Name)
+	end, function() return end)
 end
 
 print('is it me?')
