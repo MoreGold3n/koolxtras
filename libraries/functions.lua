@@ -305,6 +305,7 @@ do
 	if res.Success then
 	    local data = HttpService:JSONDecode(res.Body)
 	    for i,v in data.headers do
+			print(i, v)
 	        if string.match(i, 'Xeno-Fingerprint') then
 				xenoPste = true
 	            module.require = function(moduleScript: Instance): Instance
