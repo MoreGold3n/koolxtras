@@ -55,6 +55,7 @@ local configSys = {
 		end
 	end
 }
+lib.configSys = configSys
 
 configSys:Load()
 

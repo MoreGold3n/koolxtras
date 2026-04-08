@@ -55,7 +55,7 @@ for i,v in ids do
 					return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/refs/heads/main/init.lua'))()
 				]]
 
-				shared.Library:Save()
+				shared.Library.configSys:Save()
 				queue_on_teleport(teleportScript)
 			end)
             return loadstring(res)()
