@@ -189,7 +189,7 @@ do
 									if Swing.Enabled and SwingDelay < tick() then
 									    SwingDelay = tick() + 0.2
 
-										pcall(Dependencies.Controller.Viewmodel.PlayAnimation, Dependencies.Controller.Viewmodel, 'Melee', 'Swing')
+										pcall(Dependencies.Controllers.Viewmodel.PlayAnimation, Dependencies.Controllers.Viewmodel, 'Melee', 'Swing')
 										if not lplr.Character.Humanoid:FindFirstChild('Swing1') then
 										    Dependencies.Handlers.Tools.Sword.Sounds.Default.Swing1:Clone().Parent = lplr.Character.Humanoid
 										end
