@@ -197,7 +197,7 @@ do
 										lplr.Character.Humanoid:WaitForChild('Swing1'):Play()
 									end
 
-									task.spawn(Dependencies.Remotes.AttackPlayer.FireServer, Dependencies.Remotes.AttackPlayer, tool.Name, plr)
+									task.spawn(Dependencies.Remotes.AttackPlayer.FireServer, Dependencies.Remotes.AttackPlayer, tool.Name, plr.Character)
 								end
 							end)
 						end
