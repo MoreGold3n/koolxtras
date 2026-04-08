@@ -1060,7 +1060,7 @@ do
 		end
 
 		ScreenGUI:Destroy()
-		shared.lib = nil
+		shared.Library = nil
 		lib = nil
 	end
 end
