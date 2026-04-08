@@ -58,6 +58,16 @@ local Dependencies = {
         ItemData = Functions.require(ReplicatedStorage.Modules.DataModules.ItemsData),
         VeloUtils = ReplicatedStorage.Modules.VelocityUtils
     },
+    Controllers = {
+        Viewmodel = Functions.requirejank.helper:Fetch('ViewmodelController')
+    },
+    Handlers = {
+        Tools = ReplicatedStorage.ToolHandlers
+    },
+    Remotes = {
+        EquipTool = ReplicatedStorage.Remotes.ItemsRemotes.EquipTool,
+        AttackPlayer = ReplicatedStorage.Remotes.ItemRemotes.SwordHit
+    },
     Classes = {
         Melee = {},
         Ranged = {},
@@ -65,17 +75,6 @@ local Dependencies = {
         Blocks = {}
     }
 }
-
---[[
-
-    For future stav: Aura is going to be set out by the names of items in the table of classes
-    Melee = {
-        Wooden Sword, etc.
-    }
-
-    Get the items in those classes, see if the player has the item on them, attack using the names of the classes
-
-]]
 
 local classGroups = {
     Swords = 'Melee', Mace = 'Melee', Katanas = 'Melee', Daggers = 'Melee', ['Battle Axes'] = 'Melee', Spears = 'Melee',
@@ -89,6 +88,30 @@ for i,v in Dependencies.Modules.ItemData do
         table.insert(Dependencies.Classes[classGroups[v.Class]], i)
         continue
     end
+end
+
+local AutoTool = {Enabled = false}
+local function getTool(class)
+    for i,v in Dependencies.Classes[class] do
+        if Entity.tool.hasTool(lplr, v) then
+            return v
+        end
+
+        if AutoTool.Enabled and Entity.tool.hasToolInv(lplr, v) then
+            Dependencies.Remotes.EquipTool:FireServer(v)
+            return v
+        end
+
+        continue
+    end
+
+    return nil
+end
+
+do
+    AutoTool = Library.Tabs.Combat:CreateModule({
+        Name = 'AutoTool'
+    })
 end
 
 do
@@ -126,4 +149,60 @@ do
             end
         end
     })
+end
+
+local EntityCFrame
+local Killaura, Flight = {Enabled = false}, {Enabled = false}
+do
+    local Aura
+    local Angle = {Value = 360}
+	local Range = {Value = 16}
+	local TargetHUD = {Enabled = false}
+	local Wallcheck = {Enabled = false}
+	local Swing, SwingDelay = {Enabled = true}, tick()
+	Killaura = Library.Tabs.Combat:CreateModule({
+		Name = 'Killaura',
+		Function = function(callback)
+			if callback then
+				repeat
+					task.wait(0.1)
+
+					if Entity.isAlive(lplr) then
+						local tool = getTool('Melee')
+
+						if tool then
+							task.spawn(function()
+								local suc, res = pcall(function()
+									return Entity:GetClosestPlayer(Range.Value, Angle.Value, Wallcheck.Enabled)
+								end)
+
+								local plr
+								if suc and res then
+									plr = res
+								end
+
+								if plr and Entity.isAlive(plr) then
+									EntityCFrame = CFrame.lookAt(lplr.Character.PrimaryPart.Position, Vector3.new(plr.Character.PrimaryPart.Position.X, lplr.Character.PrimaryPart.Position.Y, plr.Character.PrimaryPart.Position.Z))
+									pcall(Library.CreateTargetHUD, Library, TargetHUD.Enabled, plr.Name, plr.Character:FindFirstChildOfClass('Humanoid'), Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48))
+
+									if Swing.Enabled and SwingDelay < tick() then
+									    SwingDelay = tick() + 0.2
+
+										pcall(Dependencies.Controller.Viewmodel.PlayAnimation, Dependencies.Controller.Viewmodel, 'Melee', 'Swing')
+										if not lplr.Character.Humanoid:FindFirstChild('Swing1') then
+										    Dependencies.Handlers.Tools.Sword.Sounds.Default.Swing1:Clone().Parent = lplr.Character.Humanoid
+										end
+
+										lplr.Character.Humanoid:WaitForChild('Swing1'):Play()
+									end
+
+									task.spawn(Dependencies.Remotes.AttackPlayer.FireServer, Dependencies.Remotes.AttackPlayer, tool.Name, plr)
+								end
+							end)
+						end
+					end
+				until not Killaura.Enabled
+			end
+		end
+	})
 end

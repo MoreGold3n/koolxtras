@@ -40,7 +40,7 @@ function entity:GetClosestPlayer(range, angle, wallcheck)
 
 		    local plrdir = math.deg(lplr.Character.HumanoidRootPart.CFrame.LookVector:Angle((v.Character.PrimaryPart.Position - lplr.Character.PrimaryPart.Position).Unit))
 		    if angle <= plrdir / 2 then continue end
-			
+
 			local dist = lplr:DistanceFromCharacter(v.Character.PrimaryPart.Position)
 			if dist < minrnge then
 			    minrnge = dist
@@ -56,8 +56,12 @@ function entity.tool.getTool(plr)
     return plr.Character and plr.Character:FindFirstChildOfClass('Tool') or nil
 end
 
+function entity.tool.getToolNme(plr, tool)
+    return plr.Character and plr.Character:FindFirstChild(tool) or nil
+end
+
 function entity.tool.getInv(plr, tool)
-    return (plr.Backpack and plr.Backpack:FindFirstChild(tool)) or nil
+    return plr.Backpack and plr.Backpack:FindFirstChild(tool) or nil
 end
 
 return entity
