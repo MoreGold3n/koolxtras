@@ -262,7 +262,7 @@ if hookmetamethod then -- Credits to my pooks nothm for this function
 							if self == lplr.Character.PrimaryPart and key == 'CFrame' then
 								if not Flight.Enabled then
 									if Killaura.Enabled and EntityCFrame then
-										return original(self, key, EntityCFrame)
+										return original(self, key, CFrame.new(val.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0))
 									end
 								end
 							end
