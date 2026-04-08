@@ -30,19 +30,6 @@ local Functions = loadstring(downloadFile('koolaid/libraries/functions.lua'))()
 local Raycast = loadstring(downloadFile('koolaid/libraries/raycast.lua'))()
 local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
 
-local Dependencies = {
-    Modules = {
-        ItemData = Functions.require(ReplicatedStorage.Modules.DataModules.ItemsData),
-        VeloUtils = ReplicatedStorage.Modules.VelocityUtils
-    },
-    Classes = {
-        Melee = {},
-        Ranged = {},
-        Mining = {},
-        Blocks = {}
-    }
-}
-
 function Entity:GetClosestPlayer(range, angle, wallcheck)
     local minrnge, entity = range, nil
 
@@ -65,6 +52,19 @@ function Entity:GetClosestPlayer(range, angle, wallcheck)
 
     return entity
 end
+
+local Dependencies = {
+    Modules = {
+        ItemData = Functions.require(ReplicatedStorage.Modules.DataModules.ItemsData),
+        VeloUtils = ReplicatedStorage.Modules.VelocityUtils
+    },
+    Classes = {
+        Melee = {},
+        Ranged = {},
+        Mining = {},
+        Blocks = {}
+    }
+}
 
 --[[
 
