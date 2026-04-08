@@ -958,7 +958,7 @@ do
 			notif:Destroy()
 			
 			for i,v in activeNotifs do
-				local targetY = 0.85 - ((i - 1) * (90 / workspace.CurrentCamera.ViewportSize.Y))
+				local targetY = 0.85 - ((i - 1) * (95 / workspace.CurrentCamera.ViewportSize.Y))
 				tweenService:Create(v, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
 					Position = UDim2.fromScale(1, targetY)
 				}):Play()
