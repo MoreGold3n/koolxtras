@@ -94,12 +94,12 @@ local AutoTool = {Enabled = false}
 local function getTool(class)
     for i,v in Dependencies.Classes[class] do
         if Entity.tool.hasTool(lplr, v) then
-            return v
+            return Entity.tool.hasTool(lplr, v)
         end
 
         if AutoTool.Enabled and Entity.tool.hasToolInv(lplr, v) then
             Dependencies.Remotes.EquipTool:FireServer(v)
-            return v
+            return Entity.tool.hasToolInv(lplr, v)
         end
 
         continue
@@ -204,5 +204,27 @@ do
 				until not Killaura.Enabled
 			end
 		end
+	})
+	Angle = Killaura:CreateSlider({
+		Name = 'Max Angle',
+		Min = 1,
+		Max = 360,
+		Default = 360
+	})
+	Range = Killaura:CreateSlider({
+		Name = 'Range',
+		Min = 1,
+		Max = 18,
+		Default = 16
+	})
+	TargetHUD = Killaura:CreateToggle({
+		Name = 'HUD'
+	})
+	Wallcheck = Killaura:CreateToggle({
+		Name = 'Wallcheck'
+	})
+	Swing = Killaura:CreateToggle({
+		Name = 'Swing',
+		Enabled = true
 	})
 end
