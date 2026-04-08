@@ -93,7 +93,10 @@ end
 local AutoTool = {Enabled = false}
 local function getTool(class)
     for i,v in Dependencies.Classes[class] do
-        if Entity.tool.hasTool(lplr, v) then
+        print(v)
+        print(Entity.tool.hasTool(lplr, v))
+
+        if Entity.tool.hasTool(lplr, v) then -- attempt to call a nil value
             return Entity.tool.hasTool(lplr, v)
         end
 
