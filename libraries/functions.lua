@@ -35,6 +35,7 @@ local Tester = Quartz.new({
 })
 
 local Results = Tester:Test({"require", "hookfunction", "hookmetamethod", "decompile"})
+Tester:PatchEnvironment()
 
 do
 	type userdata = {}
