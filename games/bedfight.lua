@@ -38,7 +38,7 @@ local Dependencies = {
     Classes = {
         Melee = {},
         Ranged = {},
-        Mining = {}
+        Mining = {},
         Blocks = {}
     }
 }
