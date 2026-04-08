@@ -35,9 +35,9 @@ function Entity:GetClosestPlayer(range, angle, wallcheck)
 
 	for i,v in Players:GetPlayers() do
 	    if v ~= lplr and self.isAlive(lplr) and self.isAlive(v) then
-			if not lplr:GetAttribute('PVP') or not v:GetAttribute('PVP') then continue end
+			if not lplr:GetAttribute('PVP') or v:GetAttribute('PVP') then continue end
 	        if wallcheck and not Raycast:CanSee(v.Character.PrimaryPart, {lplr.Character}) then continue end
-	        if v.Team and lplr.Team and v.Team == lplr.Team then continue end
+	        if (v.Team and lplr.Team) and v.Team ~= 'Spectators' and v.Team == lplr.Team then continue end
 
 		    local plrdir = math.deg(lplr.Character.HumanoidRootPart.CFrame.LookVector:Angle((v.Character.PrimaryPart.Position - lplr.Character.PrimaryPart.Position).Unit))
 		    if angle <= plrdir / 2 then continue end
