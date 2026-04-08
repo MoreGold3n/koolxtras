@@ -36,7 +36,7 @@ function Entity:GetClosestPlayer(range, angle, wallcheck)
 	for i,v in Players:GetPlayers() do
 	    if v ~= lplr and self.isAlive(lplr) and self.isAlive(v) then
 			if lplr:GetAttribute('PVP') == false or v:GetAttribute('PVP') == false then continue end
-	        if wallcheck and not raycast:CanSee(v.Character.PrimaryPart, {lplr.Character}) then continue end
+	        if wallcheck and not Raycast:CanSee(v.Character.PrimaryPart, {lplr.Character}) then continue end
 	        if v.Team and lplr.Team and v.Team == lplr.Team then continue end
 
 		    local plrdir = math.deg(lplr.Character.HumanoidRootPart.CFrame.LookVector:Angle((v.Character.PrimaryPart.Position - lplr.Character.PrimaryPart.Position).Unit))
@@ -93,17 +93,14 @@ end
 local AutoTool = {Enabled = false}
 local function getTool(class)
     for i,v in Dependencies.Classes[class] do
-        print(v)
-        print(Entity.tool.hasTool)
-        --print(Entity.tool.hasTool(lplr, v))
-
-        if Entity.tool.hasTool(lplr, v) ~= nil then
-            return Entity.tool.hasTool(lplr, v)
+        local tool = tostring(v)
+        if Entity.tool.hasTool(lplr, tool) ~= nil then
+            return Entity.tool.hasTool(lplr, tool)
         end
 
-        if AutoTool.Enabled and Entity.tool.hasToolInv(lplr, v) ~= nil then
-            Dependencies.Remotes.EquipTool:FireServer(v)
-            return Entity.tool.hasToolInv(lplr, v)
+        if AutoTool.Enabled and Entity.tool.hasToolInv(lplr, tool) ~= nil then
+            Dependencies.Remotes.EquipTool:FireServer(tool)
+            return Entity.tool.hasToolInv(lplr, tool)
         end
 
         continue
