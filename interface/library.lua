@@ -264,7 +264,7 @@ do
 	end
 
 	function lib:Notify(text, duration)
-		if #activeNotifs >= 6 then
+		if #activeNotifs > 8 then
 			removeNotification(activeNotifs[#activeNotifs])
 		end
 
