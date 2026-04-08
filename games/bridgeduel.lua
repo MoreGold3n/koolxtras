@@ -182,8 +182,7 @@ do
 									end
 	
 									local bdplr = Dependencies.Entity.FindByCharacter(plr.Character)
-									print(bdplr)
-									if (not Dependencies.Detections.Logs.SwordH) and bdplr and bdplr.Id then
+									if bdplr and bdplr.Id then -- (not Dependencies.Detections.Logs.SwordH)
 										task.spawn(Dependencies.Blink.item_action.attack_entity.fire, {
 											target_entity_id = bdplr.Id,
 											is_crit = (AuraCrits and true) or lplr.Character.HumanoidRootPart.AssemblyLinearVelocity.Y < 0,
@@ -382,4 +381,7 @@ do
 	})
 end
 
+if Dependencies.Detections.Logs.SwordH then
+	task.wait(5)
+end
 Library:Notify('Loaded successfully! Press RShift to close the GUI', 6)
