@@ -117,18 +117,13 @@ end
 
 do
     local AntiKB, AntiKBConn
-	local OGLifeTimes = {
-		
     AntiKB = Library.Tabs.Combat:CreateModule({
         Name = 'AntiKB',
         Function = function(callback)
             if callback then
                 for i,v in Dependencies.Modules.VeloUtils:GetChildren() do
                     if v.ClassName == 'LinearVelocity' then
-						OGLifeTimes[v] = {
-							LifeTime = v.LifeTime
-						}
-						v.LifeTime = 0
+						v.MaxForce = 0
                     end
 
                     continue
@@ -136,10 +131,7 @@ do
 
                 AntiKBConn = Dependencies.Modules.VeloUtils.ChildAdded:Connect(function(obj)
                     if obj.ClassName == 'LinearVelocity' then
-                        OGLifeTimes[v] = {
-							LifeTime = v.LifeTime
-						}
-						v.LifeTime = 0
+                        v.MaxForce = 0
                     end
                 end)
             else
@@ -149,8 +141,8 @@ do
                 end
 
 				for i,v in Dependencies.Modules.VeloUtils:GetChildren() do
-                    if v.ClassName == 'LinearVelocity' and table.find(OGLifeTimes, v) then
-                        v.LifeTime = OGLifeTimes[v].LifeTime
+                    if v.ClassName == 'LinearVelocity' then
+                        v.MaxForce = 20000
                     end
 
                     continue
