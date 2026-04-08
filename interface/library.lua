@@ -947,7 +947,7 @@ do
 	local function removeNotification(guiObj)
 		local ind = table.find(activeNotifs, guiObj)
 		if ind then
-			table.remove(activeNotifs, guiObj)
+			table.remove(activeNotifs, ind)
 		end
 
 		local SlideOut = tweenService:Create(ind, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
