@@ -8,6 +8,7 @@
 
 local module = {
 	requirejank = {
+		properRequire = false,
 		helper = {}
 	},
 	game = shared.place
@@ -251,32 +252,39 @@ module.hookmetamethod = hookmetamethod or function(obj, metamethod, func)
 	return old
 end
 
+-- Require
+function module.requirejank:Test()
+	if not require then return false end
+
+	local suc, res = pcall(function()
+		return require(lplr.PlayerScripts.PlayerModule).controls
+	end)
+
+	if ({identifyexecutor()})[1] == 'Xeno' then
+		self.properRequire = false
+		return false
+	end
+
+	self.properRequire = suc and true or false
+	return suc and true or false
+end
+
 function module.requirejank.helper:Fetch(file: string): string
+	print('Fetching support file: '..file)
 	return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/'..readfile('koolaid/commit.txt')..'/libraries/'..module.game..'/'..file..'.lua'))()
 end
 
-local suc, res = pcall(function()
-	return loadstring(game:HttpGetAsync("https://github.com/notpoiu/Quartz/releases/latest/download/Quartz.luau"))():new({
-		Timeout = 5,
-		AllowFFlagPolyfills = false
-	})
-end)
-
-if suc and res ~= nil then
-	Quartz = res
-end
-
 module.require = function(moduleScript: Instance): Instance
-	local fixedrequire = Quartz:GetFunction("require")
-	
 	local suc, res = pcall(function()
-		return fixedrequire(moduleScript)
+		return require(moduleScript)
 	end)
+
 	if suc and res ~= nil then
 		return res
 	end
-	
+
 	return module.requirejank.helper:Fetch(moduleScript.Parent.Name == 'Blink' and 'Blink' or moduleScript.Name)
 end
 
+module.requirejank:Test()
 return module
