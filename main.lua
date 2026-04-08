@@ -51,7 +51,7 @@ for i,v in ids do
 			shared.place = i
 			shared.Library.Signal:newconn(lplr.OnTeleport, function()
 				local teleportScript = [[
-					return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/'..readfile('koolaid/commit.txt')..'/init.lua'))()
+					return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/'..readfile('koolaid/commit.txt')..'/main.lua'))()
 				]]
 
 				shared.Library.configSys:Save()
