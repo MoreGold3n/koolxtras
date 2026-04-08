@@ -32,13 +32,20 @@ local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
 
 local Dependencies = {
     Blink = Functions.require(ReplicatedStorage.Blink.Client),
-	Entity = Functions.require(ReplicatedStorage.Modules.Entity),
-	ServerData = Functions.require(ReplicatedStorage.Modules.ServerData),
-	Viewmodel = Functions.require(ReplicatedStorage.Client.Controllers.All.ViewmodelController),
+    Modules = {
+        Detections = Functions.requirejank.helper:Fetch('Detections'),
+        Entity = Functions.require(ReplicatedStorage.Modules.Entity),
+        ServerData = Functions.require(ReplicatedStorage.Modules.ServerData)
+    },
+    Controllers = {
+        Viewmodel = Functions.require(ReplicatedStorage.Client.Controllers.All.ViewmodelController),
+    },
+    Constants = {
+        Ranks = Functions.require(ReplicatedStorage.Modules.Ranks)
+    },
 	Paths = {
 		Knockback = ReplicatedStorage.Modules.Knit.Services.CombatService.RE.KnockBackApplied
 	},
-	Detections = Functions.requirejank.helper:Fetch('Detections'),
 }
 
 --[[
@@ -46,10 +53,10 @@ local Dependencies = {
 ]]
 
 do
-	Dependencies.Detections:test('hash')
+	Dependencies.Modules.Detections:test('hash')
 
-	if Dependencies.Detections.Logs.SwordH or Dependencies.Detections.Logs.BlockH then -- For future Stav: add thing blocking SwordHit, Webhook send also
-		writefile('koolaid/logs.json', HttpService:JSONEncode(Dependencies.Detections.Logs))
+	if Dependencies.Modules.Detections.Logs.SwordH or Dependencies.Modules.Detections.Logs.BlockH then -- For future Stav: add thing blocking SwordHit, Webhook send also
+		writefile('koolaid/logs.json', HttpService:JSONEncode(Dependencies.Modules.Detections.Logs))
 		Library:Notify('A detection has been tripped [HASH]. Some script features have been disabled for your safety', 5)
 	end
 end
@@ -66,7 +73,7 @@ do
 					if tool and UserInputService:IsMouseButtonPressed(0) then
 						tool:Activate()
 					end
-							
+
 					task.wait(1 / random:NextNumber(Min.Value, Max.Value))
 				until not AutoClicker.Enabled
 			end
@@ -114,10 +121,10 @@ do
 
 				original = Functions.hook(Dependencies.Blink.item_action.attack_entity.fire, function(...)
 					local args = ...
-					if type(args) == 'table' then 
+					if type(args) == 'table' then
 						rawset(args, 'is_crit', true)
 					end
-										
+
 					return original(...)
 				end)
 			else
@@ -148,41 +155,41 @@ do
 			if callback then
 				repeat
 					task.wait(0.1)
-										
+
 					if Entity.isAlive(lplr) then
 						local tool = Entity.tool.getTool(lplr)
-	
+
 						if tool and tool:HasTag('Sword') then
 							task.spawn(function()
 								local suc, res = pcall(function()
 									return Entity:GetClosestPlayer(Range.Value, Angle.Value, Wallcheck.Enabled)
 								end)
-	
+
 								local plr
 								if suc and res then
 									plr = res
 								end
-													
+
 								if plr and Entity.isAlive(plr) then
 									EntityCFrame = CFrame.lookAt(lplr.Character.PrimaryPart.Position, Vector3.new(plr.Character.PrimaryPart.Position.X, lplr.Character.PrimaryPart.Position.Y, plr.Character.PrimaryPart.Position.Z))
 									pcall(Library.CreateTargetHUD, Library, TargetHUD.Enabled, plr.Name, plr.Character:FindFirstChildOfClass('Humanoid'), Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48))
 									ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(AutoBlock.Enabled, tool)
-	
+
 									if Swing.Enabled and SwingDelay < tick() then
 										SwingDelay = tick() + 0.25
-										lplr.Character.Humanoid.Animator:LoadAnimation(tool.Animations.Swing):Play()
-	
+										lplr.Character.Humanoid.Animator:LoadAnimation(tool:WaitForChild('Animations'):WaitForChild('Swing')):Play()
+
 										if setthreadidentity then
 											setthreadidentity(2)
 										end
-										pcall(Dependencies.Viewmodel.PlayAnimation, Dependencies.Viewmodel, tool.Name)
+										pcall(Dependencies.Controllers.Viewmodel.PlayAnimation, Dependencies.Controllers.Viewmodel, tool.Name)
 										if setthreadidentity then
 											setthreadidentity(8)
 										end
 									end
-	
-									local bdplr = Dependencies.Entity.FindByCharacter(plr.Character)
-									if bdplr and bdplr.Id then -- (not Dependencies.Detections.Logs.SwordH)
+
+									local bdplr = Dependencies.Modules.Entity.FindByCharacter(plr.Character)
+									if bdplr and bdplr.Id then -- (not Dependencies.Modules.Detections.Logs.SwordH)
 										task.spawn(Dependencies.Blink.item_action.attack_entity.fire, {
 											target_entity_id = bdplr.Id,
 											is_crit = (AuraCrits and true) or lplr.Character.HumanoidRootPart.AssemblyLinearVelocity.Y < 0,
@@ -197,7 +204,7 @@ do
 								else
 									EntityCFrame = nil
 									Library:CreateTargetHUD(false)
-	
+
 									if Entity.isAlive(lplr) then
 										local tool = Entity.tool.getTool(lplr)
 										if tool and tool:HasTag('Sword') then
@@ -212,7 +219,7 @@ do
 			else
 				EntityCFrame = nil
 				Library:CreateTargetHUD(false)
-		
+
 				if Entity.isAlive(lplr) then
 					local tool = Entity.tool.getTool(lplr)
 					if tool and tool:HasTag('Sword') then
@@ -266,7 +273,7 @@ if hookmetamethod then -- Credits to my pooks nothm for this function
 									end
 								end
 							end
-		
+
 							return original(self, key, val)
 						end)
 					end
@@ -290,8 +297,8 @@ do
 	local SpeedSlider = {Value = 16}
     Speed = Library.Tabs.Movement:CreateModule({
         Name = 'Speed',
-        Function = function(value)
-            if value then
+        Function = function(callback)
+            if callback then
                 repeat
                     if Entity.isAlive(lplr) then
                         local moveDir = lplr.Character.Humanoid.MoveDirection
@@ -348,16 +355,61 @@ end
 ]]
 
 do
+    local AntiStaff, StaffConn
+    local Method = {Value = 'Kick'}
+    AntiStaff = Library.Tabs.World:CreateModule({
+        Name = 'AntiStaff',
+        Function = function(callback)
+            if callback then
+                for _, v in Players:GetPlayers() do
+                    if table.find(Dependencies.Constants.Ranks[1].Users, v.UserId) then
+                        if Method.Value == 'Notify' then
+                            Library:Notify('A staff member is in your game: '..v.Name, 6)
+                        elseif Method.Value == 'Uninject' then
+                            Library:Uninject()
+                        elseif Method.Value == 'Kick' then
+                            lplr:Kick('A staff member is in your game: '..v.Name)
+                        end
+                    end
+                end
+
+                StaffConn = Players.PlayerAdded:Connect(function(plr)
+                    if table.find(Dependencies.Constants.Ranks[1].Users, plr.UserId) then
+                        if Method.Value == 'Notify' then
+                            Library:Notify('A staff member is in your game: '..v.Name, 6)
+                        elseif Method.Value == 'Uninject' then
+                            Library:Uninject()
+                        elseif Method.Value == 'Kick' then
+                            lplr:Kick('A staff member is in your game: '..v.Name)
+                        end
+                    end
+                end)
+            else
+                if StaffConn then
+                    StaffConn:Disconnect()
+                    StaffConn = nil
+                end
+            end
+        end
+    })
+    Method = AntiStaff:CreateSlider({
+        Name = 'Method',
+        Options = {'Notify', 'Uninject', 'Kick'},
+        Default = 'Notify'
+    })
+end
+
+do
 	local AutoQueue
 	AutoQueue = Library.Tabs.World:CreateModule({
 		Name = 'AutoQueue',
 		Function = function(callback)
 			if callback then
 				repeat
-					if Dependencies.ServerData.Submode ~= 'Playground' and lplr.PlayerGui.Hotbar.MainFrame.GameEndFrame.Visible and not lplr.PlayerGui.Hotbar.MainFrame.MatchmakingFrame.Visible then
-						ReplicatedStorage.Modules.Knit.Services.MatchService.RF.EnterQueue:InvokeServer(Dependencies.ServerData.Submode)
+					if Dependencies.Modules.ServerData.Submode ~= 'Playground' and lplr.PlayerGui.Hotbar.MainFrame.GameEndFrame.Visible and not lplr.PlayerGui.Hotbar.MainFrame.MatchmakingFrame.Visible then
+						ReplicatedStorage.Modules.Knit.Services.MatchService.RF.EnterQueue:InvokeServer(Dependencies.Modules.ServerData.Submode)
 					end
-														
+
 					task.wait()
 				until not AutoQueue.Enabled
 			end
@@ -375,9 +427,9 @@ do
 		Name = 'Disabler',
 		Function = function(callback)
 			if callback then
-				Dependencies.Detections.Paths.SendReport.Parent = nil
+				Dependencies.Modules.Detections.Paths.SendReport.Parent = nil
 			else
-				Dependencies.Detections.Paths.SendReport.Parent = ReplicatedStorage.Modules.Knit.Services.NetworkService.RF
+				Dependencies.Modules.Detections.Paths.SendReport.Parent = ReplicatedStorage.Modules.Knit.Services.NetworkService.RF
 			end
 		end
 	})

@@ -31,8 +31,8 @@ do
     local AntiHit, HitConn
     AntiHit = Library.Tabs.Combat:CreateModule({
         Name = 'AntiHit',
-        Function = function(value)
-            if value then
+        Function = function(callback)
+            if callback then
                 HitConn = Library.Signal:newconn(RunService.Heartbeat, function()
                     lplr.Character.Humanoid.HipHeight = -2
                 end)
@@ -50,8 +50,8 @@ do
     local Velocity
     Velocity = Library.Tabs.Combat:CreateModule({
         Name = 'Velocity',
-        Function = function(value)
-            if value then
+        Function = function(callback)
+            if callback then
                 repeat
                     if Entity.isAlive(lplr) then
                         if lplr.Character.Humanoid.PlatformStand then
@@ -72,8 +72,8 @@ do
 	local SpeedSlider = {Value = 16}
     Speed = Library.Tabs.Movement:CreateModule({
         Name = 'Speed',
-        Function = function(value)
-            if value then
+        Function = function(callback)
+            if callback then
                 repeat
                     if Entity.isAlive(lplr) then
                         local moveDir = lplr.Character.Humanoid.MoveDirection
@@ -94,11 +94,43 @@ do
 end
 
 do
+	local OldY, NewY
+	Flight = Library.Tabs.Movement:CreateModule({
+		Name = 'Flight',
+		Function = function(callback)
+			if callback then
+				NewY = 0
+				OldY = lplr.Character.PrimaryPart.Position.Y
+
+				repeat
+					if Entity.isAlive(lplr) then
+                        lplr.Character.PrimaryPart.CFrame = CFrame.new(lplr.Character.PrimaryPart.Position.X, OldY + NewY, lplr.Character.PrimaryPart.Position.Z) * lplr.Character.PrimaryPart.CFrame.Rotation
+
+						if UserInputService:IsKeyDown('Space') and not UserInputService:GetFocusedTextBox() then
+                            NewY += 0.8
+                        elseif UserInputService:IsKeyDown('LeftShift') and not UserInputService:GetFocusedTextBox() then
+                            NewY -= 0.8
+                        end
+					end
+
+					task.wait()
+				until not Flight.Enabled
+			else
+				NewY = 0
+				if Entity.isAlive(lplr) then
+					OldY = lplr.Character.PrimaryPart.Position.Y
+				end
+			end
+		end
+	})
+end
+
+do
     local AutoCash
     AutoCash = Library.Tabs.World:CreateModule({
         Name = 'AutoCash',
-        Function = function(value)
-            if value then
+        Function = function(callback)
+            if callback then
                 if not firetouchinterest then
                     return AutoCash:Toggle(false)
                 end
