@@ -27,16 +27,6 @@ local Services = setmetatable({}, {
 local Players = Services.Players
 local lplr = Players.LocalPlayer
 
-local Quartz = loadstring(game:HttpGetAsync("https://github.com/notpoiu/Quartz/releases/latest/download/Quartz.luau"))()
-
-local Tester = Quartz.new({
-    Timeout = 5,
-    AllowFFlagPolyfills = false
-})
-
-local Results = Tester:TestAll()
-Tester:PatchEnvironment()
-
 do
 	type userdata = {}
 	type _function = (...any) -> (...any)
@@ -164,7 +154,7 @@ do
 	end)
 	
 	--// Main
-	module.hook = (Results['hookfunction'] and hookfunction) or function(old, new)
+	module.hook = hookfunction or hook_function or hookfunc or function(old, new)
 		if debug.info(old, "s") == "[C]" then
 			local name = debug.info(old, "n")
 			
@@ -238,7 +228,7 @@ do
 		end
 	end
 	
-	module.hookmetamethod = (Results['hookmetamethod'] and hookmetamethod) or function(obj, metamethod, func)
+	module.hookmetamethod = hookmetamethod or function(obj, metamethod, func)
 		local rmt = Metatable.get_all_L_closures(obj)
 		local mt = getmetatable(obj)
 	
@@ -266,12 +256,19 @@ end
 
 -- Require
 function module.requirejank:Test()
-	if Results['require'] then
-		module.requirejank.properRequire = true
-		return true
+	if not require then return false end
+
+	local suc, res = pcall(function()
+		return require(lplr.PlayerScripts.PlayerModule).controls
+	end)
+
+	if ({identifyexecutor()})[1] == 'Xeno' then
+		self.properRequire = false
+		return false
 	end
 
-	return false
+	self.properRequire = suc and true or false
+	return suc and true or false
 end
 
 function module.requirejank.helper:Fetch(file: string): string
