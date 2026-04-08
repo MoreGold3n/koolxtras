@@ -22,7 +22,7 @@ local function downloadFile(file)
     return readfile(file)
 end
 
-local Library = loadstring(downloadFile('koolaid/interface/library.lua'))()
+local Library = shared.Library
 local Raycast = loadstring(downloadFile('koolaid/libraries/raycast.lua'))()
 local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
 
