@@ -950,8 +950,8 @@ do
 			table.remove(activeNotifs, ind)
 		end
 
-		local SlideOut = tweenService:Create(guiObj, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
-			Position = UDim2.new(2, 0, guiObj.Position.Y.Scale, guiObj.Position.Y.Offset)
+		local SlideOut = tweenService:Create(guiObj, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.In), {
+			Position = UDim2.new(1.5, 0, guiObj.Position.Y.Scale, guiObj.Position.Y.Offset)
 		})
 		
 		SlideOut:Play()
