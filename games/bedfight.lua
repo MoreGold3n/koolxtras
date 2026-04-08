@@ -198,6 +198,8 @@ do
 									end
 
 									task.spawn(Dependencies.Remotes.AttackPlayer.FireServer, Dependencies.Remotes.AttackPlayer, tool.Name, plr.Character)
+								else
+								    Library:CreateTargetHUD(false)
 								end
 							end)
 						end
