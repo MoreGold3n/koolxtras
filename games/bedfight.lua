@@ -257,7 +257,7 @@ do
     SpeedSlider = Speed:CreateSlider({
         Name = 'Speed',
 		Min = 1,
-		Max = 32,
+		Max = 100,
 		Default = 16
     })
 end
