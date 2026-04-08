@@ -34,7 +34,7 @@ local Tester = Quartz.new({
     AllowFFlagPolyfills = true -- Allow polyfills that use fflags, can disable if you don't want to get detected by roblox's fflag detections, default is true.
 })
 
-local Results = Tester:Test({"require", "hookfunction", "hookmetamethod", "decompile"})
+local Results = Tester:Test('require')
 Tester:PatchEnvironment()
 
 do
@@ -164,7 +164,7 @@ do
 	end)
 	
 	--// Main
-	module.hook = Results['hookfunction'] and hookfunction or function(old, new)
+	module.hook = hookfunction or function(old, new)
 		if debug.info(old, "s") == "[C]" then
 			local name = debug.info(old, "n")
 			
@@ -238,7 +238,7 @@ do
 		end
 	end
 	
-	module.hookmetamethod = Results['hookmetamethod'] and hookmetamethod or function(obj, metamethod, func)
+	module.hookmetamethod = hookmetamethod or function(obj, metamethod, func)
 		local rmt = Metatable.get_all_L_closures(obj)
 		local mt = getmetatable(obj)
 	
@@ -265,24 +265,18 @@ do
 end
 
 function module.requirejank.helper:Fetch(file: string): string
-	print('fetching: '..file)
 	return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/'..readfile('koolaid/commit.txt')..'/libraries/'..module.game..'/'..file..'.lua'))()
 end
 
 module.require = function(moduleScript: Instance): Instance
-	return xpcall(function()
-		local require = Tester:GetFunction("require")
-		
-		local suc, res = pcall(function()
-			return require(moduleScript)
-		end)
-		if suc and res ~= nil then
-			return res
-		end
+	local suc, res = pcall(function()
+		return require(moduleScript)
+	end)
+	if suc and res ~= nil then
+		return res
+	end
 	
-		return module.requirejank.helper:Fetch(moduleScript.Parent.Name == 'Blink' and 'Blink' or moduleScript.Name)
-	end, function() return end)
+	return module.requirejank.helper:Fetch(moduleScript.Parent.Name == 'Blink' and 'Blink' or moduleScript.Name)
 end
 
-print('is it me?')
 return module
