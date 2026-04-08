@@ -264,6 +264,7 @@ do
 end
 
 function module.requirejank.helper:Fetch(file: string): string
+	print('fetching')
 	return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/'..readfile('koolaid/commit.txt')..'/libraries/'..module.game..'/'..file..'.lua'))()
 end
 
