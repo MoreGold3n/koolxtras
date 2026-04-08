@@ -57,7 +57,7 @@ do
 
 	if Dependencies.Modules.Detections.Logs.SwordH or Dependencies.Modules.Detections.Logs.BlockH then -- For future Stav: add thing blocking SwordHit, Webhook send also
 		writefile('koolaid/logs.json', HttpService:JSONEncode(Dependencies.Modules.Detections.Logs))
-		Library:Notify('A detection has been tripped [HASH]. Logs have been sent to script developers', 5)
+		Library:Notify('A potential detection has been tripped [HASH]. Log has been sent to the script developers.', 5)
 	end
 end
 
