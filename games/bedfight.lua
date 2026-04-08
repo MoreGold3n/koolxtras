@@ -43,17 +43,6 @@ local Dependencies = {
     }
 }
 
---[[
-
-    For future stav: Aura is going to be set out by the names of items in the table of classes
-    Melee = {
-        Wooden Sword, etc.
-    }
-
-    Get the items in those classes, see if the player has the item on them, attack using the names of the classes
-
-]]
-
 function Entity:GetClosestPlayer(range, angle, wallcheck)
     local minrnge, entity = range, nil
 
@@ -76,6 +65,17 @@ function Entity:GetClosestPlayer(range, angle, wallcheck)
 
     return entity
 end
+
+--[[
+
+    For future stav: Aura is going to be set out by the names of items in the table of classes
+    Melee = {
+        Wooden Sword, etc.
+    }
+
+    Get the items in those classes, see if the player has the item on them, attack using the names of the classes
+
+]]
 
 local classGroups = {
     Swords = 'Melee', Mace = 'Melee', Katanas = 'Melee', Daggers = 'Melee', ['Battle Axes'] = 'Melee', Spears = 'Melee',
