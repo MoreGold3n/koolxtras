@@ -41,6 +41,7 @@ local Dependencies = {
         Viewmodel = Functions.require(ReplicatedStorage.Client.Controllers.All.ViewmodelController),
     },
     Constants = {
+		Melee = Functions.require(ReplicatedStorage.Constants.Melee),
         Ranks = Functions.require(ReplicatedStorage.Constants.Ranks)
     },
 	Paths = {
@@ -135,6 +136,26 @@ do
 
 				Functions.hook(Dependencies.Blink.item_action.attack_entity.fire, original)
 				original = nil
+			end
+		end
+	})
+end
+
+do
+	local Reach
+	local Value = {Value = 16}
+	Reach = Library.Tabs.Combat:CreateModule({
+		Name = 'Reach',
+		Function = function(callback)
+			if callback then
+				repeat
+					if Entity.isAlive(lplr) then
+						Dependencies.Constants.Melee.REACH_IN_STUDS = Value.Value
+						Dependencies.Modules.Entity.LocalEntity.Reach = Value.Value
+					end
+
+					task.wait()
+				until not Reach.Enabled
 			end
 		end
 	})
