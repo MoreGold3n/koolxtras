@@ -159,6 +159,12 @@ do
 			end
 		end
 	})
+	Value = Reach:CreateSlider({
+        Name = 'Value',
+		Min = 1,
+		Max = 18,
+		Default = 16
+    })
 end
 
 local EntityCFrame
