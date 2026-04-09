@@ -11,5 +11,6 @@ local Services = setmetatable({}, {
 local ReplicatedStorage = Services.ReplicatedStorage
 
 return {
-    REACH_IN_STUDS = ReplicatedStorage.Constants.Melee.Reach.Value
+    REACH_IN_STUDS = ReplicatedStorage.Constants.Melee.Reach,
+    fetchedCE = true
 }

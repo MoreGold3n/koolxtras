@@ -150,7 +150,12 @@ do
 			if callback then
 				repeat
 					if Entity.isAlive(lplr) then
-						Dependencies.Constants.Melee.REACH_IN_STUDS = Value.Value
+						if Dependencies.Constants.Melee.fetchedCE then
+							Dependencies.Constants.Melee.REACH_IN_STUDS.Value = Value.Value
+						else
+							Dependencies.Constants.Melee.REACH_IN_STUDS = Value.Value
+						end
+						
 						Dependencies.Modules.Entity.LocalEntity.Reach = Value.Value
 					end
 
