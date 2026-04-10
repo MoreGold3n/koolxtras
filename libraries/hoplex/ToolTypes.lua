@@ -1,6 +1,7 @@
 -- Decompiled by your's lovely (stav)
 local v_u_1 = {}
-local v_u_2 = game:GetService("ReplicatedStorage")
+local cloneref = cloneref or function(obj) return obj end
+local v_u_2 = cloneref(game:GetService("ReplicatedStorage"))
 local v_u_3 = nil
 local Functions = loadfile('koolaid/libraries/functions.lua')()
 pcall(function()
