@@ -1,6 +1,7 @@
 -- Decompiled by your's lovely (stav)
-local v_u_1 = game:GetService("CollectionService")
-local v_u_2 = game:GetService("Workspace")
+local cloneref = cloneref or function(obj) return obj end
+local v_u_1 = cloneref(game:GetService("CollectionService"))
+local v_u_2 = cloneref(game:GetService("Workspace"))
 local v_u_3 = {
 	["Tag"] = "Hitbox",
 	["LegacyName"] = "Hitbox",
