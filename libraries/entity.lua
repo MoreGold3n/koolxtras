@@ -57,15 +57,17 @@ function entity.tool.getTool(plr)
 end
 
 function entity.tool.hasTool(plr, tool)
-    --print(plr)
-    --print(tool)
-
-    --print(plr.Character:FindFirstChild(tool))
     return plr.Character and plr.Character:FindFirstChild(tool) or nil
 end
 
 function entity.tool.hasToolInv(plr, tool)
     return plr.Backpack and plr.Backpack:FindFirstChild(tool) or nil
+end
+
+function entity.isFirstPerson()
+	if not entity.isAlive(lplr) then return false end
+
+	return (lplr.Character.Head.CFrame.Position - workspace.CurrentCamera.CFrame.Position).Magnitude < 1
 end
 
 return entity
