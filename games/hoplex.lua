@@ -89,7 +89,7 @@ do
                                         lplr.Character.PrimaryPart.CFrame = CFrame.new(lplr.Character.PrimaryPart.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0)
 
                                         if Entity.isFirstPerson() then
-                                            Workspace.CurrentCamera.CFrame = CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position, plr.Character.PrimaryPart.Position)
+                                            Workspace.CurrentCamera.CFrame = CFrame.new(lplr.Character.PrimaryPart.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0)
                                         end
                                     end
 
