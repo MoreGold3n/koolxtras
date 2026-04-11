@@ -136,7 +136,7 @@ do
         Function = function(callback)
             if callback then
                 repeat
-                    if Entity.isAlive(lplr) and Entity.isAlive(KillauraEntity) and EntityCFrame then
+                    if Entity.isAlive(lplr) and KillauraEntity and EntityCFrame then
                         lplr.Character:PivotTo(CFrame.new(lplr.Character.PrimaryPart.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0))
 
                         if Entity.isFirstPerson() then
