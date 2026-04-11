@@ -11,6 +11,13 @@ local Services = setmetatable({}, {
 local ReplicatedStorage = Services.ReplicatedStorage
 return {
     PlaceBlock = function(self, position, blocktype)
-        return ReplicatedStorage.Modules.Knit.Services.ToolService.RF.PlaceBlock:InvokeServer(position)
+        local fake = ReplicatedStorage.Assets.Blocks[blocktype]:Clone()
+		fake.Name = 'TempBlock'
+		fake.Position = position
+		fake:AddTag('TempBlock')
+		fake:AddTag('Block')
+
+        ReplicatedStorage.Modules.Knit.Services.ToolService.RF.PlaceBlock:InvokeServer(position)
+        fake:Destroy()
     end
 }
