@@ -250,7 +250,7 @@ do
             if callback then
                 repeat
                     if Entity.isAlive(lplr) and EntityCFrame then
-                        lplr.Character.PrimaryPart.CFrame = CFrame.new(lplr.Character.PrimaryPart.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0)
+                        lplr.Character:PivotTo(CFrame.new(lplr.Character.PrimaryPart.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0))
                     end
 
                     task.wait()

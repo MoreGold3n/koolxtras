@@ -136,11 +136,11 @@ do
         Function = function(callback)
             if callback then
                 repeat
-                    if Entity.isAlive(lplr) and EntityCFrame and KillauraEntity then
-                        lplr.Character.PrimaryPart.CFrame = CFrame.new(lplr.Character.PrimaryPart.Position) * EntityCFrame.Rotation
+                    if Entity.isAlive(lplr) and Entity.isAlive(KillauraEntity) and EntityCFrame then
+                        lplr.Character:PivotTo(CFrame.new(lplr.Character.PrimaryPart.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0))
 
                         if Entity.isFirstPerson() then
-                            Workspace.CurrentCamera.CFrame = CFrame.new(Workspace.CurrentCamera.CFrame.Position, KillauraEntity.Character.PrimaryPart.Position)
+                            Workspace.CurrentCamera.CFrame = CFrame.lookAt(Workspace.CurrentCamera.CFrame.Position, KillauraEntity.Character.PrimaryPart.Position)
                         end
                     end
 
