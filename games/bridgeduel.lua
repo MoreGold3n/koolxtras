@@ -231,7 +231,7 @@ do
 												extra = {
 													rizz = 'Bro.',
 													owo = 'What\'s this? OwO',
-													those = workspace.Name == 'Ok'
+													those = workspace.Name == 'Okay'
 												}
 											})
 										end
