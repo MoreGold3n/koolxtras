@@ -33,7 +33,7 @@ local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
 local Dependencies = {
     Blink = Functions.require(ReplicatedStorage.Blink.Client),
     Modules = {
-        Detections = Functions.requirejank.helper:Fetch('Detections'),
+        Helper = Functions.requirejank.helper:Fetch('Dumper'),
         Entity = Functions.require(ReplicatedStorage.Modules.Entity),
         ServerData = Functions.require(ReplicatedStorage.Modules.ServerData)
     },
@@ -46,7 +46,8 @@ local Dependencies = {
         Ranks = Functions.require(ReplicatedStorage.Constants.Ranks)
     },
 	Paths = {
-		Knockback = ReplicatedStorage.Modules.Knit.Services.CombatService.RE.KnockBackApplied
+		Knockback = ReplicatedStorage.Modules.Knit.Services.CombatService.RE.KnockBackApplied,
+		Sword = ReplicatedStorage.Client.Components.All.Tools.SwordClient
 	},
 }
 
@@ -55,12 +56,7 @@ local Dependencies = {
 ]]
 
 do
-	Dependencies.Modules.Detections:test('hash')
-
-	if Dependencies.Modules.Detections.Logs.SwordH then -- For future Stav: send webhook logic
-		writefile('koolaid/logs.json', HttpService:JSONEncode(Dependencies.Modules.Detections.Logs))
-		Library:Notify('A potential detection has been tripped [HASH]. Log has been sent to the script developers.', 5)
-	end
+	Dependencies.Constants.Extra = Dependencies.Modules.Helper.dump(Dependencies.Modules.Helper.decompile(Dependencies.Paths.Sword))
 end
 
 do
@@ -228,11 +224,7 @@ do
 												target_entity_id = bdplr.Id,
 												is_crit = (AuraCrits and true) or lplr.Character.HumanoidRootPart.AssemblyLinearVelocity.Y < 0,
 												weapon_name = tool.Name,
-												extra = {
-													rizz = 'Bro.',
-													owo = 'What\'s this? OwO',
-													those = workspace.Name == 'Ok'
-												}
+												extra = Dependencies.Constants.Extra
 											})
 										end
 									end
