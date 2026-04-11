@@ -29,7 +29,7 @@ function raycast:IfBlockUnderneath(expand)
 	local rayParams, res = RaycastParams.new(), nil
 	rayParams.FilterType = Enum.RaycastFilterType.Exclude
     rayParams.FilterDescendantsInstances = {lplr.Character}
-	res = workspace:Raycast(Vector3.new(lplr.Character.HumanoidRootPart.Position.X + lplr.Character.HumanoidRootPart.MoveDirection.X * (expand * 3), lplr.Character.HumanoidRootPart.Position.Y, lplr.Character.HumanoidRootPart.Position.Z + lplr.Character.HumanoidRootPart.MoveDirection.Z * (expand * 3)), Vector3.new(0, -6, 0), rayParams)
+	res = workspace:Raycast(Vector3.new(lplr.Character.HumanoidRootPart.Position.X + lplr.Character.Humanoid.MoveDirection.X * (expand * 3), lplr.Character.HumanoidRootPart.Position.Y, lplr.Character.HumanoidRootPart.Position.Z + lplr.Character.Humanoid.MoveDirection.Z * (expand * 3)), Vector3.new(0, -6, 0), rayParams)
 
 	if not res then
 		return false
