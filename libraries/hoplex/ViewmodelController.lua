@@ -10,13 +10,17 @@ local Services = setmetatable({}, {
 
 local ReplicatedStorage = Services.ReplicatedStorage
 local Workspace = Services.Workspace
+local Players = Services.Players
+local lplr = Players.LocalPlayer
 
 local Entity = loadfile('koolaid/libraries/entity.lua')()
 local SwingAnim = ReplicatedStorage.Assets.Animations.HitAnimation
 
 return {
 	PlayAnimation = function(self, type)
-		Workspace.CurrentCamera:WaitForChild('ViewModel').ViewModelHumanoid.Animator:LoadAnimation(Animation):Play()
-		lplr.Character:WaitForChild('Humanoid').Animator:LoadAnimation(Animation):Play()
+		if Entity.isAlive(lplr) then
+			Workspace.CurrentCamera:WaitForChild('ViewModel').ViewModelHumanoid.Animator:LoadAnimation(SwingAnim):Play()
+			lplr.Character:WaitForChild('Humanoid').Animator:LoadAnimation(SwingAnim):Play()
+		end
     end
 }
