@@ -39,6 +39,7 @@ local Dependencies = {
     },
     Controllers = {
         Viewmodel = Functions.require(ReplicatedStorage.Client.Controllers.All.ViewmodelController),
+		Block = Functions.require(ReplicatedStorage.Client.Controllers.All.BlockPlacementController)
     },
     Constants = {
 		Melee = Functions.require(ReplicatedStorage.Constants.Melee),
@@ -382,6 +383,67 @@ do
 			end
 		end
 	})
+end
+
+do
+	local Scaffold, PlacePos
+	local Expand = {Value = 3}
+
+	local function getPosition(pos)
+		return Vector3.new(math.floor((pos.X / 3) + 0.5) * 3, math.floor((pos.Y / 3) + 0.5) * 3, math.floor((pos.Z / 3) + 0.5) * 3)
+	end
+
+	local function isAtPos(pos)
+		for i,v in workspace.Map:GetDescendants() do
+			if v:IsA("BasePart") and v.Name == "Block" then
+				if getPosition(v.Position) == pos then
+					return true
+				end
+			end
+		end
+
+		return false
+	end
+
+
+	Scaffold = Library.Tabs.Movement:CreateModule({
+		Name = 'Scaffold',
+		Function = function(callback)
+			if callback then
+				repeat
+					if Entity.isAlive(lplr) then
+						task.spawn(function()
+							for i = 1, Expand.Value do
+								local tool = Entity.tool.getTool(lplr)
+
+								if tool and tool:HasTag('Blocks') then
+									local btype = tool.Name == 'Blocks' and 'Clay' or tool.Name:sub(1, -6)
+									local offset = Dependencies.Modules.Entity.LocalEntity.IsSneaking and 4.5 or 1.5
+
+									if lplr.Character.Humanoid.FloorMaterial ~= Enum.Material.Air and (UserInputService:IsKeyDown(Enum.KeyCode.Space) and not UserInputService:GetFocusedTextBox()) then
+										lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.PrimaryPart.Velocity.X, 28, lplr.Character.PrimaryPart.Velocity.Z)
+									end
+
+									PlacePos = getPosition(lplr.Character.PrimaryPart.Position + lplr.Character.Humanoid.MoveDirection * (i * 3.5) - Vector3.yAxis * ((lplr.Character.PrimaryPart.Size.Y / 2) + lplr.Character.Humanoid.HipHeight + offset))
+									if not isAtPos(PlacePos) and not Raycast:IfBlockUnderneath(i) then
+										task.spawn(Dependencies.Controllers.Block.PlaceBlock, Dependencies.Controllers.Block, PlacePos, btype)
+									end
+								end
+							end
+						end)
+					end
+
+					task.wait()
+				until not Scaffold.Enabled
+			end
+		end
+	})
+	Expand = Scaffold:CreateSlider({
+        Name = 'Expand',
+		Min = 1,
+		Max = 6,
+		Default = 1
+    })
 end
 
 --[[

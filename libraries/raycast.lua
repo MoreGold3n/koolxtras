@@ -16,9 +16,26 @@ function raycast:CanSee(target, filter)
     local rayParams, res = RaycastParams.new(), nil
     rayParams.FilterType = Enum.RaycastFilterType.Exclude
     rayParams.FilterDescendantsInstances = filter or {lplr.Character}
-   	local res = workspace:Raycast(lplr.Character.HumanoidRootPart.Position, target.Position - lplr.Character.HumanoidRootPart.Position, rayParams)
+   	res = workspace:Raycast(lplr.Character.HumanoidRootPart.Position, target.Position - lplr.Character.HumanoidRootPart.Position, rayParams)
 	
-    return (res and res.Instance and not target:IsAncestorOf(res.Instance)) and false or true
+    if res and res.Instance and not target:IsAncestorOf(res.Instance) then
+		return false
+	end
+
+	return true
+end
+
+function raycast:IfBlockUnderneath(expand)
+	local rayParams, res = RaycastParams.new(), nil
+	rayParams.FilterType = Enum.RaycastFilterType.Exclude
+    rayParams.FilterDescendantsInstances = {lplr.Character}
+	res = workspace:Raycast(Vector3.new(lplr.Character.HumanoidRootPart.Position.X + lplr.Character.HumanoidRootPart.MoveDirection.X * (expand * 3), lplr.Character.HumanoidRootPart.Position.Y, lplr.Character.HumanoidRootPart.Position.Z + lplr.Character.HumanoidRootPart.MoveDirection.Z * (expand * 3)), Vector3.new(0, -6, 0), rayParams)
+
+	if not res then
+		return false
+	end
+	
+	return true
 end
 
 return raycast
