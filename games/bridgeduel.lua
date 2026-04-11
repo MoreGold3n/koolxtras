@@ -414,7 +414,7 @@ do
 		end
 
 		if ItemCheck.Enabled then return nil end
-		for i, v in lplr.Backpack do
+		for i, v in lplr.Backpack:GetChildren() do
 			if v:HasTag('Blocks') then
 				return v
 			end
