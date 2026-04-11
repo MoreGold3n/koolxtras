@@ -202,15 +202,18 @@ do
 
     								task.spawn(Dependencies.Remotes.AttackPlayer.FireServer, Dependencies.Remotes.AttackPlayer, tool.Name, plr.Character)
     							else
+                                    EntityCFrame = nil
     								Library:CreateTargetHUD(false)
     							end
                             end)
 						else
+                            EntityCFrame = nil
 						    Library:CreateTargetHUD(false)
 						end
 					end
 				until not Killaura.Enabled
 			else
+                EntityCFrame = nil
 			    Library:CreateTargetHUD(false)
 			end
 		end
@@ -237,6 +240,24 @@ do
 		Name = 'Swing',
 		Enabled = true
 	})
+end
+
+do
+    local Rotations
+    Rotations = Library.Tabs.Combat:CreateModule({
+        Name = 'Rotations',
+        Function = function(callback)
+            if callback then
+                repeat
+                    if Entity.isAlive(lplr) and EntityCFrame then
+                        lplr.Character.PrimaryPart.CFrame = CFrame.new(lplr.Character.PrimaryPart.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0)
+                    end
+
+                    task.wait()
+                until not Rotations.Enabled
+            end
+        end
+    })
 end
 
 do
@@ -296,3 +317,5 @@ do
 		end
 	})
 end
+
+Library:Notify('Loaded successfully! Press INSERT to open kool aid.', 6)

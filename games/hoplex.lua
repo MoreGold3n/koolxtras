@@ -124,6 +124,24 @@ do
 end
 
 do
+    local Rotations
+    Rotations = Library.Tabs.Combat:CreateModule({
+        Name = 'Rotations',
+        Function = function(callback)
+            if callback then
+                repeat
+                    if Entity.isAlive(lplr) and EntityCFrame then
+                        lplr.Character.PrimaryPart.CFrame = CFrame.new(lplr.Character.PrimaryPart.Position) * CFrame.Angles(0, math.atan2(-EntityCFrame.LookVector.X, -EntityCFrame.LookVector.Z), 0)
+                    end
+
+                    task.wait()
+                until not Rotations.Enabled
+            end
+        end
+    })
+end
+
+do
     local Speed
 	local SpeedSlider = {Value = 16}
     Speed = Library.Tabs.Movement:CreateModule({
@@ -180,3 +198,5 @@ do
 		end
 	})
 end
+
+Library:Notify('Loaded successfully! Press INSERT to open kool aid.', 6)

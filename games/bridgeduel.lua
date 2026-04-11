@@ -469,4 +469,4 @@ do
 	})
 end
 
-Library:Notify('Loaded successfully! Press RShift to close the GUI', 6)
+Library:Notify('Loaded successfully! Press INSERT to open kool aid.', 6)
