@@ -145,6 +145,7 @@ MainFrame.BackgroundColor3 = Color3.fromRGB(255, 107, 107)
 MainFrame.BorderSizePixel = 0
 MainFrame.Position = UDim2.fromScale(0.5, 0.5)
 MainFrame.Size = UDim2.fromOffset(650, 450)
+MainFrame.Visible = false
 MainFrame.Parent = ScreenGUI
 makeStroke(Enum.ApplyStrokeMode.Border, Color3.fromRGB(255, 0, 0), Enum.LineJoinMode.Miter, Enum.StrokeSizingMode.FixedSize, 3, 0.7, MainFrame)
 
@@ -377,7 +378,7 @@ do
 	lib.Signal:newconn(inputService.InputBegan, function(key, gpe)
 		if gpe then return end
 
-		if key.KeyCode == Enum.KeyCode.RightShift then
+		if key.KeyCode == Enum.KeyCode.Insert then
 			MainFrame.Visible = not MainFrame.Visible
 		end
 	end)
