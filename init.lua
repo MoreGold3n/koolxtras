@@ -1,3 +1,5 @@
+repeat task.wait() until game:IsLoaded()
+
 local cloneref = cloneref or function(obj)
 	return obj
 end
