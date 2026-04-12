@@ -55,7 +55,7 @@ Helper.decompile = function(scriptPath: ModuleScript | LocalScript): string
 end
 
 Helper.dump = function(source, sandbox)
-    sandbox = sandbox or {workspace = workspace}
+    sandbox = {workspace = workspace}
     local results, pattern = {}, string.format('%%["%s"%%]%%s*=%%s*(%%b{})', 'extra')
 
     local raw = source:match(pattern)
@@ -80,7 +80,7 @@ Helper.dump = function(source, sandbox)
         return s:match('^".*"$') or s:match("^'.*'$")
     end
 
-    for key, value in raw:gmatch('%["(.-)"%]%s*=%s*(.-)[,%}]') do
+    for key, value in raw:gmatch('%["(.-)"%]%s*=%s*(".-"|%b{}|[^,}]+)') do
         value = value:match("^%s*(.-)%s*$")
         if isQuotedString(value) then
             results[key] = value:sub(2, -2)
