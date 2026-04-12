@@ -197,6 +197,8 @@ do
 									return Entity:GetClosestPlayer(Range.Value, Angle.Value, Wallcheck.Enabled)
 								end)
 
+								print(suc, res)
+
 								local plr, bdplr
 								if suc and res then
 									plr = res
@@ -205,6 +207,7 @@ do
 
 								if plr and bdplr and Entity.isAlive(plr) then
 									if bdplr.IsInPvpArena and Dependencies.Modules.Entity.LocalEntity.IsInPvpArena then
+										print('what')
 										EntityCFrame = CFrame.lookAt(lplr.Character.PrimaryPart.Position, Vector3.new(plr.Character.PrimaryPart.Position.X, lplr.Character.PrimaryPart.Position.Y, plr.Character.PrimaryPart.Position.Z))
 										pcall(Library.CreateTargetHUD, Library, TargetHUD.Enabled, plr.Name, plr.Character:FindFirstChildOfClass('Humanoid'), Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size48x48))
 										ReplicatedStorage.Modules.Knit.Services.ToolService.RF.ToggleBlockSword:InvokeServer(AutoBlock.Enabled, tool)
