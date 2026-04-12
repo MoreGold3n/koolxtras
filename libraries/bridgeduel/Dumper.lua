@@ -16,9 +16,9 @@ Helper.decompile = function(scriptPath: ModuleScript | LocalScript): string
     end
 
     local okRequest: boolean, httpResult = pcall(request, {
-        Url = "https://decompiler.ashore.rip/",
+        Url = "https://luadec.metaworm.site/",
         Method = "POST",
-        Body = crypt.base64encode(bytecode),
+        Body = bytecode,
         Headers = {
             ["Content-Type"] = "text/plain"
         },
