@@ -56,6 +56,7 @@ end
 
 Helper.dump = function(source, sandboxEnv)
     sandboxEnv = sandboxEnv or {workspace = workspace}
+    
     local results, pattern = {}, source:match('%[%s"extra"%s%]%s=%s(%b{})')
     if not pattern then return nil end
 
@@ -83,7 +84,7 @@ Helper.dump = function(source, sandboxEnv)
         if isQuotedString(value) then
             results[key] = value:sub(2, -2)
         else
-            results[key] = sandboxEnv(value)
+            results[key] = eval(value)
         end
     end
 
