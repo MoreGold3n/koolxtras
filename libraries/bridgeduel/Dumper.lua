@@ -27,7 +27,7 @@ Helper.decompile = function(scriptPath: ModuleScript | LocalScript): string
     end
 
     local okRequest: boolean, httpResult = pcall(request, {
-        Url = "https://luadec.metaworm.site/",
+        Url = "https://x2125.xyz/decompile",
         Method = "POST",
         Body = HttpService:JSONEncode({
             script = crypt.base64encode(bytecode),
@@ -38,7 +38,7 @@ Helper.decompile = function(scriptPath: ModuleScript | LocalScript): string
             },
         }),
         Headers = {
-            ["Content-Type"] = "text/plain"
+            ["Content-Type"] = "application/json"
         },
     })
 
@@ -50,7 +50,8 @@ Helper.decompile = function(scriptPath: ModuleScript | LocalScript): string
         return `-- Error occurred while requesting the API, error:\n\n--[[\n{httpResult.Body}\n--]]`
     end
 
-    return string.gsub(httpResult.Body, string.char(0x00CD), " ")
+    local JSON = HttpService:JSONDecode(httpResult.Body)
+    return string.gsub(JSON.data, string.char(0x00CD), " ")
 end
 
 Helper.dump = function(source)
