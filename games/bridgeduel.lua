@@ -60,8 +60,6 @@ do
 	Dependencies.Constants.Extra = Dependencies.Modules.Helper.dump((Dependencies.Modules.Helper.decompile(Dependencies.Paths.Sword)))
 end
 
-print(Dependencies.Constants.Extra)
-
 do
 	local AutoClicker
 	local Min, Max = {Value = 8}, {Value = 12}
