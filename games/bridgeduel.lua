@@ -229,6 +229,8 @@ do
 												weapon_name = tool.Name,
 												extra = Dependencies.Constants.Extra
 											})
+
+											for i,v in Dependencies.Constants.Extra do print(i,v) end
 										end
 									end
 								else
