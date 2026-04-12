@@ -205,7 +205,9 @@ do
 									bdplr = Dependencies.Modules.Entity.FindByCharacter(plr.Character)
 								end
 
+								print(plr, bdplr)
 								if plr and bdplr and Entity.isAlive(plr) then
+									print('yo?')
 									if bdplr.IsInPvpArena and Dependencies.Modules.Entity.LocalEntity.IsInPvpArena then
 										print('what')
 										EntityCFrame = CFrame.lookAt(lplr.Character.PrimaryPart.Position, Vector3.new(plr.Character.PrimaryPart.Position.X, lplr.Character.PrimaryPart.Position.Y, plr.Character.PrimaryPart.Position.Z))
