@@ -222,6 +222,8 @@ do
 											end
 										end
 
+										for i,v in Dependencies.Constants.Extra do print(i,v) end
+
 										if bdplr.Id and Dependencies.Constants.Extra then -- (not Dependencies.Modules.Detections.Logs.SwordH)
 											task.spawn(Dependencies.Blink.item_action.attack_entity.fire, {
 												target_entity_id = bdplr.Id,
@@ -229,8 +231,6 @@ do
 												weapon_name = tool.Name,
 												extra = Dependencies.Constants.Extra
 											})
-
-											for i,v in Dependencies.Constants.Extra do print(i,v) end
 										end
 									end
 								else
