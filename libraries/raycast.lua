@@ -25,11 +25,11 @@ function raycast:CanSee(target, filter)
 	return true
 end
 
-function raycast:IfBlockUnderneath(expand)
+function raycast:IfBlockUnderneath()
 	local rayParams, res = RaycastParams.new(), nil
 	rayParams.FilterType = Enum.RaycastFilterType.Exclude
     rayParams.FilterDescendantsInstances = {lplr.Character}
-	res = workspace:Raycast(Vector3.new(lplr.Character.HumanoidRootPart.Position.X + lplr.Character.Humanoid.MoveDirection.X * (expand * 3), lplr.Character.HumanoidRootPart.Position.Y, lplr.Character.HumanoidRootPart.Position.Z + lplr.Character.Humanoid.MoveDirection.Z * (expand * 3)), Vector3.new(0, -6, 0), rayParams)
+	res = workspace:Raycast(Vector3.new(lplr.Character.HumanoidRootPart.Position.X + lplr.Character.Humanoid.MoveDirection.X * (1 * 3), lplr.Character.HumanoidRootPart.Position.Y, lplr.Character.HumanoidRootPart.Position.Z + lplr.Character.Humanoid.MoveDirection.Z * (expand * 3)), Vector3.new(0, -6, 0), rayParams)
 
 	if not res then
 		return false

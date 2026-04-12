@@ -11,6 +11,14 @@ local Services = setmetatable({}, {
 local ReplicatedStorage = Services.ReplicatedStorage
 return {
     PlaceBlock = function(self, position, blocktype)
-        return ReplicatedStorage.Modules.Knit.Services.ToolService.RF.PlaceBlock:InvokeServer(position)
+        local suc, res = pcall(function()
+            return ReplicatedStorage.Modules.Knit.Services.ToolService.RF.PlaceBlock:InvokeServer(position)
+        end)
+
+        if suc then
+            return res
+        end
+
+        return nil
     end
 }

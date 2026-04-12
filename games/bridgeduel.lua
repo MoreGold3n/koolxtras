@@ -384,7 +384,7 @@ do
 end
 
 do
-	-- Credits to my pooks nothm for the getPosition, isAtPos and GetPosition calculations
+	-- Credits to my pooks nothm for the getPosition and GetPosition calculations
 	local Scaffold, PlacePos
 	local ItemCheck = {Enabled = false}
 
@@ -392,16 +392,34 @@ do
 		return Vector3.new(math.floor((pos.X / 3) + 0.5) * 3, math.floor((pos.Y / 3) + 0.5) * 3, math.floor((pos.Z / 3) + 0.5) * 3)
 	end
 
+	local cache = {}
+
+	for _, v in workspace.Map:GetDescendants() do
+		if v:IsA('BasePart') and v.Name == 'Block' then
+			cache[v] = getPosition(v.Position)
+		end
+	end
+
+	Library.Signal:newconn(workspace.Map.DescendantAdded, function(obj)
+		if obj:IsA('BasePart') and obj.Name == 'Block' then
+			cache[obj] = getPosition(obj.Position)
+		end
+	end)
+
+	Library.Signal:newconn(workspace.Map.DescendantRemoving, function(obj)
+		if cache[obj] then
+			cache[obj] = nil
+		end
+	end)
+
 	local function isAtPos(pos)
-		task.spawn(function()
-			for i,v in workspace.Map:GetDescendants() do
-				if v:IsA("BasePart") and v.Name == "Block" then
-					if getPosition(v.Position) == pos then
-						return true
-					end
-				end
+		for i,v in cache do
+			if v == pos then
+				return true
 			end
-		end)
+
+			continue
+		end
 
 		return false
 	end
@@ -441,13 +459,13 @@ do
 
 								PlacePos = getPosition(lplr.Character.PrimaryPart.Position + lplr.Character.Humanoid.MoveDirection * (1 * 3.5) - Vector3.yAxis * ((lplr.Character.PrimaryPart.Size.Y / 2) + lplr.Character.Humanoid.HipHeight + offset))
 
-								if not isAtPos(PlacePos) and not Raycast:IfBlockUnderneath(1) then
-									local fake = ReplicatedStorage.Assets.Blocks[btype]:Clone()
-									fake.Name = 'TempBlock'
-									fake.Position = PlacePos
-									fake:AddTag('TempBlock')
-									fake:AddTag('Block')
+								local fake = ReplicatedStorage.Assets.Blocks[btype]:Clone()
+								fake.Name = 'TempBlock'
+								fake.Position = PlacePos
+								fake:AddTag('TempBlock')
+								fake:AddTag('Block')
 
+								if not isAtPos(PlacePos) and not Raycast:IfBlockUnderneath(1) then
 									if setthreadidentity then
 										setthreadidentity(2)
 									end
@@ -455,9 +473,8 @@ do
 									if setthreadidentity then
 										setthreadidentity(8)
 									end
-
-									fake:Destroy()
 								end
+								fake:Destroy()
 							end
 						end)
 					end
