@@ -55,7 +55,7 @@ Helper.decompile = function(scriptPath: ModuleScript | LocalScript): string
 end
 
 Helper.dump = function(source)
-    local results, pattern = {}, string.format('%%["%s"%%]%%s*=%%s*(%%b{})', 'extra')
+    local sandbox, results, pattern = {workspace = workspace}, {}, string.format('%%["%s"%%]%%s*=%%s*(%%b{})', 'extra')
 
     local raw = source:match(pattern)
     if not raw then return results end
@@ -64,7 +64,7 @@ Helper.dump = function(source)
         local chunk = loadstring('return '..expr)
         if not chunk then return nil end
 
-        setfenv(chunk, {workspace = workspace})
+        setfenv(chunk, sandbox)
         local suc, res = pcall(chunk)
         
         if suc and res ~= nil then
