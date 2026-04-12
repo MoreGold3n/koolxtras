@@ -16,7 +16,7 @@ Helper.decompile = function(scriptPath: ModuleScript | LocalScript): string
     end
 
     local okRequest: boolean, httpResult = pcall(request, {
-        Url = "https://medal.upio.dev/decompile",
+        Url = "https://decompiler.ashore.rip/",
         Method = "POST",
         Body = crypt.base64encode(bytecode),
         Headers = {
