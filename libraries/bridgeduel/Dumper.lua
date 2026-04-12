@@ -74,7 +74,6 @@ Helper.dump = function(source, sandboxEnv)
         return nil
     end
 
-    local reuslts = {}
     local function isQuotedString(s)
         return s:match('^".*"$') or s:match("^'.*'$")
     end
