@@ -67,7 +67,8 @@ Helper.dump = function(source)
         setfenv(chunk, sandbox)
         local suc, res = pcall(chunk)
         
-        if suc and res ~= nil then
+        print(suc, res)
+        if suc then
             return res
         end
         
