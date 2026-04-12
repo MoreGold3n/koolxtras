@@ -453,8 +453,8 @@ do
 								local btype = tool.Name == 'Blocks' and 'Clay' or tool.Name:sub(1, -6)
 								local offset = Dependencies.Modules.Entity.LocalEntity.IsSneaking and 4.5 or 1.5
 
-								if lplr.Character.Humanoid.FloorMaterial ~= Enum.Material.Air and (UserInputService:IsKeyDown(Enum.KeyCode.Space) and not UserInputService:GetFocusedTextBox()) then
-									lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.PrimaryPart.Velocity.X, 28, lplr.Character.PrimaryPart.Velocity.Z)
+								if lplr.Character.Humanoid.FloorMaterial ~= Enum.Material.Air and (UserInputService:IsKeyDown('Space') and not UserInputService:GetFocusedTextBox()) then
+									lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.PrimaryPart.Velocity.X, 38, lplr.Character.PrimaryPart.Velocity.Z)
 								end
 
 								PlacePos = getPosition(lplr.Character.PrimaryPart.Position + lplr.Character.Humanoid.MoveDirection * (1 * 3.5) - Vector3.yAxis * ((lplr.Character.PrimaryPart.Size.Y / 2) + lplr.Character.Humanoid.HipHeight + offset))
