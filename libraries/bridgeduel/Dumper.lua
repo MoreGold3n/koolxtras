@@ -81,16 +81,6 @@ Helper.dump = function(source, sandboxEnv)
         return s:match('^".*"$') or s:match("^'.*'$")
     end
 
-    for key, value in pattern:gmatch('%["(.-)"%]%s=%s(.-)[,%}]') do
-        value = value:match("^%s(.-)%s$")
-        
-        if isQuotedString(value) then
-            results[key] = value:sub(2, -2)
-        else
-            results[key] = eval(value)
-        end
-    end
-
     for key, value in pattern:gmatch('%["(.-)"%]%s*=%s*"(.-)"') do
         if isQuotedString(value) then
             results[key] = value
