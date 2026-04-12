@@ -67,7 +67,7 @@ Helper.dump = function(source, sandboxEnv)
         local chunk, err = loadstring('return '..str)
         if not chunk then return nil end
 
-        setfenv(chunk, sandboxEnv)
+        setfenv(chunk, setmetatable(sandboxEnv, {__index = getfenv()}))
         local suc, res = pcall(chunk)
         
         print(suc, res)
