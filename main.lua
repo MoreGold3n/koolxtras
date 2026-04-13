@@ -43,6 +43,9 @@ for i,v in ids do
 			repeat task.wait() until shared.Library
 			shared.Library.Signal:newconn(lplr.OnTeleport, function()
 				local teleportScript = [[
+					if shared.queuing then return end
+					
+					shared.queuing = true
 					return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/'..readfile('koolaid/commit.txt')..'/main.lua'))()
 				]]
 

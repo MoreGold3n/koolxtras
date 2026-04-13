@@ -547,10 +547,15 @@ do
 		Name = 'NoFall',
 		Function = function(callback)
 			if callback then
-				Dependencies.Paths.OnFell.Parent = nil
-			else
-				Dependencies.Paths.OnFell.Parent = ReplicatedStorage.Modules.Knit.Services.VoidService.RE
-			end 
+				repeat
+					if Entity.isAlive(lplr) then
+						if lplr.Character.Humanoid.FloorMaterial == Enum.Material.Air and (lplr.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall or lplr.Character.Humanoid:GetState() == Enum.HumanoidStateType.FallingDown) then
+							lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Landed)
+						end
+					end
+
+					task.wait()
+				until not NoFall.Enabled
 		end
 	})
 end
