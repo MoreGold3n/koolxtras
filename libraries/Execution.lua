@@ -39,6 +39,7 @@ function Execution:Send()
             Library:Notify('[API] Failed to log execution request: ratelimited?', 3)
         elseif res.StatusCode ~= 200 then
             Library:Notify('[API] Unknown status code: bad internet?')
+            print(suc, res.StatusCode, res)
         end
     end
 
