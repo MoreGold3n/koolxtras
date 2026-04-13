@@ -48,6 +48,7 @@ local Dependencies = {
     },
 	Paths = {
 		Knockback = ReplicatedStorage.Modules.Knit.Services.CombatService.RE.KnockBackApplied,
+		OnFell = ReplicatedStorage.Modules.Knit.Services.VoidService.RE.OnFell,
 		Sword = ReplicatedStorage.Client.Components.All.Tools.SwordClient,
 		SendReport = ReplicatedStorage.Modules.Knit.Services.NetworkService.RF.SendReport
 	},
@@ -536,6 +537,20 @@ do
 					task.wait()
 				until not AutoQueue.Enabled
 			end
+		end
+	})
+end
+
+do
+	local NoFall
+	NoFall = Library.Tabs.Misc:CreateModule({
+		Name = 'NoFall',
+		Function = function(callback)
+			if callback then
+				Dependencies.Paths.OnFell.Parent = nil
+			else
+				Dependencies.Paths.OnFell.Parent = ReplicatedStorage.Modules.Knit.Services.VoidService.RE
+			end 
 		end
 	})
 end
