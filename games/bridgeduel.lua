@@ -470,14 +470,11 @@ do
 									if setthreadidentity then
 										setthreadidentity(2)
 									end
-                                    local suc, ret = pcall(Dependencies.Controllers.Block.PlaceBlock, Dependencies.Controllers.Block, PlacePos, btype)
+                                    task.spawn(Dependencies.Controllers.Block.PlaceBlock, Dependencies.Controllers.Block, PlacePos, btype)
 									if setthreadidentity then
 										setthreadidentity(8)
 									end
-
-									if suc and ret ~= nil then
-										fake:Destroy()
-									end
+									fake:Destroy()
 								end
 							end
 						end)
