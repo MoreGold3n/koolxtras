@@ -29,7 +29,7 @@ function Execution:Send()
         Body = HttpService:JSONEncode({
             place_id = shared.place,
             username = lplr.Name,
-            user_id = lplr.UserId,
+            user_id = tostring(value)(lplr.UserId),
             hwid = gethwid()
         }),
     })
