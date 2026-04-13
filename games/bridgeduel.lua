@@ -139,7 +139,7 @@ do
 	})
 end
 
-do
+--[[do
 	local Reach
 	local Value = {Value = 16}
 	Reach = Library.Tabs.Combat:CreateModule({
@@ -168,7 +168,7 @@ do
 		Max = 18,
 		Default = 16
     })
-end
+end]]
 
 local EntityCFrame
 local Killaura, Flight = {Enabled = false}, {Enabled = false}
