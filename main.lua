@@ -42,7 +42,6 @@ if identifyexecutor then
 	end
 end
 
-loadstring(downloadFile('koolaid/interface/library.lua'))()
 for i,v in ids do
     if table.find(v, game.PlaceId) then
         local suc, res = pcall(downloadFile, 'koolaid/games/'..i..'.lua')
@@ -51,6 +50,9 @@ for i,v in ids do
             return error('Failed to download file: '..debug.traceback(res))
         elseif res then
 			shared.place = i
+			loadstring(downloadFile('koolaid/interface/library.lua'))()
+
+			repeat task.wait() until shared.Library
 			shared.Library.Signal:newconn(lplr.OnTeleport, function()
 				local teleportScript = [[
 					return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/'..readfile('koolaid/commit.txt')..'/main.lua'))()
