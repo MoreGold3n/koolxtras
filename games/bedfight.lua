@@ -26,9 +26,14 @@ end
 
 local Library = shared.Library
 
+local Execution = loadstring(downloadFile('koolaid/libraries/execution.lua'))()
 local Functions = loadstring(downloadFile('koolaid/libraries/functions.lua'))()
 local Raycast = loadstring(downloadFile('koolaid/libraries/raycast.lua'))()
 local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
+
+do
+    Execution:Send()
+end
 
 function Entity:GetClosestPlayer(range, angle, wallcheck)
     local minrnge, entity = range, nil

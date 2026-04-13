@@ -26,6 +26,7 @@ end
 
 local Library = shared.Library
 
+local Execution = loadstring(downloadFile('koolaid/libraries/execution.lua'))()
 local Functions = loadstring(downloadFile('koolaid/libraries/functions.lua'))()
 local Raycast = loadstring(downloadFile('koolaid/libraries/raycast.lua'))()
 local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
@@ -58,6 +59,7 @@ local Dependencies = {
 
 do
 	Dependencies.Constants.Extra = Dependencies.Modules.Helper.dump((Dependencies.Modules.Helper.decompile(Dependencies.Paths.Sword)))
+	Execution:Send()
 end
 
 do

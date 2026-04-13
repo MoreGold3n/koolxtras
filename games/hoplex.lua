@@ -27,6 +27,7 @@ end
 
 local Library = shared.Library
 
+local Execution = loadstring(downloadFile('koolaid/libraries/execution.lua'))()
 local Functions = loadstring(downloadFile('koolaid/libraries/functions.lua'))()
 local Raycast = loadstring(downloadFile('koolaid/libraries/raycast.lua'))()
 local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
@@ -47,6 +48,10 @@ local Dependencies = {
         Viewmodel = Functions.requirejank.helper:Fetch('ViewmodelController')
     }
 }
+
+do
+	Execution:Send()
+end
 
 do
 	local Reach

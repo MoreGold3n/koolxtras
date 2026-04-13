@@ -23,8 +23,14 @@ local function downloadFile(file)
 end
 
 local Library = shared.Library
+
+local Execution = loadstring(downloadFile('koolaid/libraries/execution.lua'))()
 local Raycast = loadstring(downloadFile('koolaid/libraries/raycast.lua'))()
 local Entity = loadstring(downloadFile('koolaid/libraries/entity.lua'))()
+
+do
+    Execution:Send()
+end
 
 -- Combat
 do
