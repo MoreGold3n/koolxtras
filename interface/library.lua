@@ -6,6 +6,8 @@
 	CREATED: [ 16/03 ] (2026)
 
 ]]
+repeat task.wait() until game:IsLoaded()
+
 if not shared.place then shared.place = game.PlaceId end
 if shared.Library then
     shared.Library:Uninject()
