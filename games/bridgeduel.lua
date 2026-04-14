@@ -397,7 +397,7 @@ do
 
 	local function isAtPos(pos)
 		for _, v in workspace.Map:GetDescendants() do
-			if v:IsA('BasePart') and v.Name == 'Block' then
+			if v:IsA('BasePart') and v.Name == 'Block' and getPosition(v.Position) == pos then
 				return true
 			end
 
