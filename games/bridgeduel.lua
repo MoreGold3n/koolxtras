@@ -443,13 +443,6 @@ do
 								PlacePos = getPosition(lplr.Character.PrimaryPart.Position + lplr.Character.Humanoid.MoveDirection * (1 * 3.5) - Vector3.yAxis * ((lplr.Character.PrimaryPart.Size.Y / 2) + lplr.Character.Humanoid.HipHeight + offset))
 
 								if not isAtPos(PlacePos) and not Raycast:IfBlockUnderneath() then
-									local fake = ReplicatedStorage.Assets.Blocks[btype]:Clone()
-									fake.Name = 'TempBlock'
-									fake.Position = PlacePos
-									fake:AddTag('TempBlock')
-									fake:AddTag('Block')
-									fake.Parent = workspace
-
 									if setthreadidentity then
 										setthreadidentity(2)
 									end
@@ -457,7 +450,6 @@ do
 									if setthreadidentity then
 										setthreadidentity(8)
 									end
-									fake:Destroy()
 								end
 							end
 						end)
