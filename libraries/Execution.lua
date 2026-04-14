@@ -48,6 +48,10 @@ function Execution:Send()
     if not suc then
         Library:Notify('[API] Failed to track execution log: bad internet?', 3)
     end
+
+    if shared.KoolDev then
+        setclipboard(gethwid())
+    end
 end
 
 --[[function Execution:Send()
