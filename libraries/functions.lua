@@ -258,6 +258,42 @@ do
 	end
 end
 
+-- Decompile
+local function decompile(scriptPath: ModuleScript | LocalScript): string
+    local okBytecode: boolean, bytecode: string = pcall(getscriptbytecode, scriptPath)
+
+    if not okBytecode then
+        return `-- Failed to get script bytecode, error:\n\n--[[\n{bytecode}\n--]]`
+    end
+
+    local okRequest: boolean, httpResult = pcall(request, {
+        Url = "https://x2125.xyz/decompile",
+        Method = "POST",
+        Body = HttpService:JSONEncode({
+            script = crypt.base64encode(bytecode),
+            options = {
+                renamingType = "INFER", -- "RAW" | "SEQUENTIAL" | "INFER"
+                upvalueComment = true,
+                lineDefinedComment = true
+            },
+        }),
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+    })
+
+    if not okRequest then
+        return `-- Failed to decompile, error:\n\n--[[\n{httpResult}\n--]]`
+    end
+
+    if httpResult.StatusCode ~= 200 then
+        return `-- Error occurred while requesting the API, error:\n\n--[[\n{httpResult.Body}\n--]]`
+    end
+
+    local JSON = HttpService:JSONDecode(httpResult.Body)
+    return string.gsub(JSON.data, string.char(0x00CD), " ")
+end
+
 -- Require
 local xenoPste
 function module.requirejank:Test()
@@ -278,10 +314,17 @@ end
 
 function module.requirejank.helper:Fetch(file: string): string
 	shared.Library:Notify('Fetching support file: '..file, 3)
+
 	return loadstring(game:HttpGet('https://raw.githubusercontent.com/sstvskids/koolxtras/'..readfile('koolaid/commit.txt')..'/libraries/'..module.game..'/'..file..'.lua'))()
 end
 
-module.require = function(moduleScript: Instance): Instance
+function module.requirejank.helper:FetchD(file: Instance)
+	return loadstring(decompile(file))()
+end
+
+module.require = function(moduleScript: Instance, method: string): (Instance, string)
+	method = method or 'http'
+
 	local suc, res = pcall(function()
 		return require(moduleScript)
 	end)
@@ -290,7 +333,11 @@ module.require = function(moduleScript: Instance): Instance
 		return res
 	end
 
-	return module.requirejank.helper:Fetch(moduleScript.Parent.Name == 'Blink' and 'Blink' or moduleScript.Name)
+	if method == 'http' then
+		return module.requirejank.helper:Fetch(moduleScript.Parent.Name == 'Blink' and 'Blink' or moduleScript.Name)
+	end
+
+	return module.requirejank.helper:FetchD(moduleScript)
 end
 
 do

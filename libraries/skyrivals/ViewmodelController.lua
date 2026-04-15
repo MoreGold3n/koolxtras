@@ -1,0 +1,3 @@
+local Viewmodel = {}
+
+return Viewmodel
