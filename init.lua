@@ -23,7 +23,7 @@ end
 local function downloadFile(file)
 	url = file:gsub('koolaid/', '')
 	if not isfile(file) then
-	    writefile(file, game:HttpGet('https://raw.githubusercontent.com/MoreGold3n/koolxtras/'..readfile('koolaid/commit.txt')..'/'..url))
+	    writefile(file, game:HttpGet('https://raw.githubusercontent.com/matchaonmydih/koolxtras/'..readfile('koolaid/commit.txt')..'/'..url))
 	end
 	
 	repeat task.wait() until isfile(file)
@@ -34,7 +34,7 @@ for _, v in {'koolaid', 'koolaid/libraries', 'koolaid/configs', 'koolaid/games',
         makefolder(v)
     end
 end
-local commit = HttpService:JSONDecode(game:HttpGet('https://api.github.com/repos/MoreGold3n/koolxtras/commits'))[1].sha
+local commit = HttpService:JSONDecode(game:HttpGet('https://api.github.com/repos/matchaonmydih/koolxtras/commits'))[1].sha
 if not isfile('koolaid/commit.txt') then
     writefile('koolaid/commit.txt', commit)
 elseif readfile('koolaid/commit.txt') ~= commit then
