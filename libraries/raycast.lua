@@ -18,7 +18,7 @@ function raycast:CanSee(target, filter)
     rayParams.FilterDescendantsInstances = filter or {lplr.Character}
    	res = workspace:Raycast(lplr.Character.HumanoidRootPart.Position, target.Position - lplr.Character.HumanoidRootPart.Position, rayParams)
 	
-    if res and res.Instance and not target:IsAncestorOf(res.Instance) then
+    if (res and res.Instance) and (not target.Parent or not target.Parent:IsAncestorOf(res.Instance)) then
 		return false
 	end
 
