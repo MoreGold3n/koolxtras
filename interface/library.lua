@@ -380,7 +380,7 @@ do
 	lib.Signal:newconn(inputService.InputBegan, function(key, gpe)
 		if gpe then return end
 
-		if key.KeyCode == Enum.KeyCode.Insert then
+		if key.KeyCode == Enum.KeyCode.RightShift then
 			MainFrame.Visible = not MainFrame.Visible
 		end
 	end)
