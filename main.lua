@@ -19,7 +19,7 @@ local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport) o
 local function downloadFile(file)
     url = file:gsub('koolaid/', '')
     if not isfile(file) then
-        writefile(file, game:HttpGet('https://raw.githubusercontent.com/MoreGold3n/koolxtras/'..readfile('koolaid/commit.txt')..'/'..url))
+        writefile(file, game:HttpGet('https://raw.githubusercontent.com/matchaonmydih/koolxtras/'..readfile('koolaid/commit.txt')..'/'..url))
     end
     repeat task.wait() until isfile(file)
     return readfile(file)
@@ -37,7 +37,7 @@ for i,v in ids do
 				local teleportScript = [[
 					if shared.queuing then return end
 					shared.queuing = true
-					return loadstring(game:HttpGet('https://raw.githubusercontent.com/MoreGold3n/koolxtras/'..readfile('koolaid/commit.txt')..'/main.lua'))()
+					return loadstring(game:HttpGet('https://raw.githubusercontent.com/matchaonmydih/koolxtras/'..readfile('koolaid/commit.txt')..'/main.lua'))()
 				]]
 				shared.Library.configSys:Save()
 				queue_on_teleport(teleportScript)
