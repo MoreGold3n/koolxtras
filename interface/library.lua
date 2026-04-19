@@ -299,7 +299,7 @@ do
 		Title.BorderSizePixel = 0
 		Title.Size = UDim2.fromOffset(0, 30)
 		Title.FontFace = Font.fromName('Montserrat', Enum.FontWeight.SemiBold)
-		Title.Text = 'kool.aid'
+		Title.Text = 'jew aid remake'
 		Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 		Title.TextSize = 18
 		Title.TextXAlignment = Enum.TextXAlignment.Left
